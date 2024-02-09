@@ -4,22 +4,38 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
-import { ProgramModule } from './program/program.module';
 import { ProgramsModule } from './programs/programs.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { ChaptersModule } from './chapters/chapters.module';
+import { AnswersModule } from './answers/answers.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { PlansModule } from './plans/plans.module';
+import { QuestionsModule } from './questions/questions.module';
+import { TagsModule } from './tags/tags.module';
+import { CollectionsModule } from './collections/collections.module';
+import { AuthModule } from './auth/auth.module';
+import { WinstonModule } from 'nest-winston';
+import winston from 'winston';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     UsersModule,
-    ProgramModule,
     ProgramsModule,
     SubjectsModule,
     ChaptersModule,
+    AnswersModule,
+    SubscriptionsModule,
+    PlansModule,
+    QuestionsModule,
+    TagsModule,
+    CollectionsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+
+}

@@ -38,7 +38,7 @@ export class User extends DefaultEntity {
   phone_number: string;
 
   @Column({ type: 'varchar', default: 'student' })
-  role: string;
+  role: 'student' | 'teacher' | 'admin';
 
   @ManyToOne(() => Program, (program) => program.users)
   @JoinColumn()
@@ -51,8 +51,4 @@ export class User extends DefaultEntity {
   @JoinColumn()
   subscription: Subscription;
 
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
 }

@@ -21,16 +21,20 @@ async function bootstrap() {
     }),
   );
 
-  const fastifyPassport = new Authenticator();
+  // const fastifyPassport = new Authenticator();
 
   await app.register(fastifyCookie);
   await app.register(fastifySession, {
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 86400000,
+      secure: true
+    }
   });
 
-  await app.register(fastifyPassport.initialize());
-  await app.register(fastifyPassport.secureSession());
+  // await app.register(fastifyPassport.initialize());
+  // await app.register(fastifyPassport.secureSession());
 
   await app.register(fastifyRequestLogger);
 

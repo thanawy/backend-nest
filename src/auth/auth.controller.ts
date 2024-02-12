@@ -14,6 +14,7 @@ import { SignInDto } from 'users/dto/sign-in.dto';
 import { CreateUserDto } from 'users/dto/create-user.dto';
 import * as secureSession from '@fastify/secure-session'
 import { FastifyRequest } from 'fastify';
+import { AuthenticatedGuard, LocalGuard } from './guards/local.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -32,7 +33,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalGuard)
   @Post('login')
   async login(@Request() request, @Body() signInDto: SignInDto) {
     return {
@@ -70,14 +71,15 @@ export class AuthController {
   }
 
   @Get('status')
+  @UseGuards(AuthenticatedGuard)
   async status(@Session() session: secureSession.Session, @Request() request: FastifyRequest) {
-    console.log(session.user)
+    console.log(session.passport.user)
     console.log(request.user)
-    console.log(session.userId)
     return {
       message: 'Session status',
       statusCode: HttpStatus.OK,
       session,
+      user: request.user
     };
   }
 }

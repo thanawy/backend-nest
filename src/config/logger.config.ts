@@ -1,6 +1,6 @@
 export const loggerConfig = {
     logger: {
-        level: 'debug',
+        level: 'trace',
         transport: {
             target: '@mgcrea/pino-pretty-compact',
             options: {

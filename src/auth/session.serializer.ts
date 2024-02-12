@@ -1,22 +1,29 @@
+import { Injectable, OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
-import { UsersService } from 'users/users.service'; // Update import path as necessary
+import { Authenticator } from '@fastify/passport';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
-  constructor(private readonly userService: UsersService) {
-    console.log('session serializer');
+
+  constructor(private readonly usersService: UsersService) {
     super();
   }
-
-  serializeUser(user: any, done: Function) {
-    console.log('serializeUser: ', user);
+  serializeUser(user: User, done: Function) {
+    console.log("session serializer")
     done(null, user.id);
+    console.log("session serialized")
   }
-
+  
   async deserializeUser(userId: string, done: Function) {
-    console.log('deserializeUser: ', userId);
-    const user = await this.userService.findOne(userId);
+    console.log("deserializeUser: ", userId)
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      return done(new UnauthorizedException(), null);
+    }
+    console.log("deserializedUser: ", user)
     done(null, user);
   }
+  
 }

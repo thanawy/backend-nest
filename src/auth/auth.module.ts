@@ -6,12 +6,16 @@ import { SessionSerializer } from 'auth/session.serializer';
 import { LocalStrategy } from 'auth/strategies/local.strategy';
 import { FacebookStrategy } from 'auth/strategies/facebook.strategy';
 import { AuthController } from './auth.controller';
-
-
+import { CurrentUserGuard } from './guards/current.user.guard';
 
 @Module({
   imports: [UsersModule, PassportModule.register({ session: true })],
-  providers: [AuthService, LocalStrategy, FacebookStrategy, SessionSerializer],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    FacebookStrategy,
+    SessionSerializer,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

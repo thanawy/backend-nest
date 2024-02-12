@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Get,
+  Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -12,9 +13,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
 import { CreateUserDto } from 'users/dto/create-user.dto';
-import * as secureSession from '@fastify/secure-session'
+import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
-import { AuthenticatedGuard, LocalGuard } from './guards/local.guard';
+import { LocalGuard } from 'auth/guards/local.guard';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -60,7 +63,6 @@ export class AuthController {
     return req.user;
   }
 
-
   @Post('logout')
   async logout(@Session() session: Record<string, any>) {
     await session.destroy();
@@ -72,14 +74,17 @@ export class AuthController {
 
   @Get('status')
   @UseGuards(AuthenticatedGuard)
-  async status(@Session() session: secureSession.Session, @Request() request: FastifyRequest) {
-    console.log(session.passport.user)
-    console.log(request.user)
+  async status(
+    @Session() session: secureSession.Session,
+    @Request() request: FastifyRequest,
+  ) {
     return {
       message: 'Session status',
       statusCode: HttpStatus.OK,
       session,
-      user: request.user
+      user: request.user,
     };
   }
 }
+
+

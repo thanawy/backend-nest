@@ -17,25 +17,25 @@ import { DefaultEntity } from '../../database/default.entities';
 export class User extends DefaultEntity {
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  facebook_id: string;
+  facebookId: string;
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  google_id: string;
+  googleId: string;
 
   @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true})
   password: string;
 
   @Column({ type: 'varchar', nullable: true })
-  display_name: string;
+  displayName: string;
 
   @Column({ type: 'varchar', nullable: true })
-  country_code: string;
+  countryCode: string;
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  phone_number: string;
+  phoneNumber: string;
 
   @Column({ type: 'varchar', default: 'student' })
   role: 'student' | 'teacher' | 'admin';

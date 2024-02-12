@@ -4,15 +4,16 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
+  Request,
   Session,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
-import { CreateUserDto } from '../users/dto/create-user.dto';
-
+import { CreateUserDto } from 'users/dto/create-user.dto';
+import * as secureSession from '@fastify/secure-session'
+import { FastifyRequest } from 'fastify';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -33,8 +34,9 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Body() signInDto: SignInDto) {
+  async login(@Request() request, @Body() signInDto: SignInDto) {
     return {
+      user: request.user,
       message: 'Login successful',
     };
   }
@@ -52,7 +54,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('facebook'))
   @Get('facebook/callback')
-  async facebookCallback(@Req() req: Record<string, any>) {
+  async facebookCallback(@Request() req: Record<string, any>) {
     console.log('callback called...');
     return req.user;
   }
@@ -64,6 +66,18 @@ export class AuthController {
     return {
       message: 'Logout successful',
       statusCode: HttpStatus.OK,
+    };
+  }
+
+  @Get('status')
+  async status(@Session() session: secureSession.Session, @Request() request: FastifyRequest) {
+    console.log(session.user)
+    console.log(request.user)
+    console.log(session.userId)
+    return {
+      message: 'Session status',
+      statusCode: HttpStatus.OK,
+      session,
     };
   }
 }

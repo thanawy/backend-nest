@@ -17,6 +17,8 @@ import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { FacebookGuard } from './guards/facebook.guard';
+import { CreateLocalUserDto } from './dto/create.local.user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,13 +26,10 @@ export class AuthController {
 
   @Post('register')
   async register(
-    @Body() createUserDto: CreateUserDto,
+    @Body() credentials: any,
     @Session() session: Record<string, any>,
   ) {
-    const user = await this.authService.register(
-      createUserDto.email,
-      createUserDto.password,
-    );
+    const user = await this.authService.register(credentials.email, credentials.password);
     session.userId = user.id;
     return user;
   }
@@ -46,21 +45,22 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard('facebook'))
+  @UseGuards(FacebookGuard)
   @Get('facebook')
   async loginWithFacebook() {
-    console.log('Redirecting to facebook...');
     return {
       message: 'Redirecting to facebook...',
     };
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard('facebook'))
+  @UseGuards(FacebookGuard)
   @Get('facebook/callback')
-  async facebookCallback(@Request() req: Record<string, any>) {
-    console.log('callback called...');
-    return req.user;
+  async facebookCallback(@Request() request: Record<string, any>) {
+    return {
+      user: request.user,
+      message: 'Login successful',
+    };
   }
 
   @Post('logout')
@@ -86,5 +86,3 @@ export class AuthController {
     };
   }
 }
-
-

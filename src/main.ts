@@ -38,22 +38,22 @@ async function bootstrap() {
 
   await app.register(fastifyRequestLogger);
 
-  // app
-  //   .getHttpAdapter()
-  //   .getInstance()
-  //   .addHook('onRequest', (request, reply, done) => {
-  //     // @ts-ignore
-  //     reply.setHeader = function (key, value) {
-  //       return this.raw.setHeader(key, value);
-  //     };
-  //     // @ts-ignore
-  //     reply.end = function () {
-  //       this.raw.end();
-  //     };
-  //     // @ts-ignore
-  //     request.res = reply;
-  //     done();
-  //   });
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .addHook('onRequest', (request, reply, done) => {
+      // @ts-ignore
+      reply.setHeader = function (key, value) {
+        return this.raw.setHeader(key, value);
+      };
+      // @ts-ignore
+      reply.end = function () {
+        this.raw.end();
+      };
+      // @ts-ignore
+      request.res = reply;
+      done();
+    });
 
   await app.listen(3000);
 }

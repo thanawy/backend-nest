@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from 'users/users.service';
 import * as bcrypt from 'bcrypt';
+import { CreateLocalUserDto } from './dto/create.local.user.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,9 +24,10 @@ export class AuthService {
   }
 
   async register(email: string, password: string): Promise<any> {
-    // todo: check if user already exists or if password is not strong enough or if email is not valid
-    return this.userService.create({ email, password: await bcrypt.hash(password, 10), facebookId: null, displayName: null });
+    if (await this.userService.findByEmail(email)) {
+      throw new UnauthorizedException('Email already exists!');
+    }
+    const user = new CreateLocalUserDto(email, await bcrypt.hash(password, 10))
+    return this.userService.create(user);
   }
-
-
 }

@@ -16,6 +16,9 @@ import { DefaultEntity } from '../../database/default.entities';
 @Entity()
 export class User extends DefaultEntity {
 
+  @Column({ type: 'varchar', nullable: false })
+  provider: string;
+
   @Column({ type: 'varchar', unique: true, nullable: true })
   facebookId: string;
 

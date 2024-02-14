@@ -8,28 +8,35 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+      @InjectRepository(User)
+      private usersRepository: Repository<User>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.usersRepository.save(createUserDto);
   }
 
   findAll() {
     return this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User | null> {
-    return this.usersRepository.findOneBy( { id } );
-    // return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ id });
+  }
+
+  findOneByFacebookId(facebookId: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ facebookId });
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   remove(id: string) {
-    return `This action removes a #${id} user`;
+    return this.usersRepository.delete(id);
+  }
+
+  async findByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
   }
 }

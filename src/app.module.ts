@@ -16,6 +16,7 @@ import { CollectionsModule } from './collections/collections.module';
 import { AuthModule } from './auth/auth.module';
 import { WinstonModule } from 'nest-winston';
 import winston from 'winston';
+import { CurrentUserGuard } from './auth/guards/current.user.guard';
 
 @Module({
   imports: [
@@ -34,8 +35,12 @@ import winston from 'winston';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'APP_GUARD',
+      useClass: CurrentUserGuard,
+    },
+  ],
 })
-export class AppModule {
-
-}
+export class AppModule {}

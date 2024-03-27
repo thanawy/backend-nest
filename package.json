@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node -r tsconfig-paths/register src/tools/typeorm.custom-cli.ts"
+    "typeorm": "ts-node -r tsconfig-paths/register src/tools/typeorm.custom-cli.ts",
+    "migration:generate": "yarn run typeorm migration:generate --dataSource src/database/data-source.ts",
+    "migration:run": "yarn run typeorm migration:run --dataSource src/database/data-source.ts",
+    "migration:revert": "yarn run typeorm migration:revert --dataSource src/database/data-source.ts"
   },
   "dependencies": {
     "@mgcrea/fastify-request-logger": "^1.5.0",

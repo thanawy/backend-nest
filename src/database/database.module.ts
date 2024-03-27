@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
         synchronize: configService.get<boolean>('DB_SYNC'), // Caution: true only for development,
         namingStrategy: new SnakeNamingStrategy(),
       }),
+      dataSourceFactory: async (options) => {
+        return await new DataSource(options).initialize();
+      },
       inject: [ConfigService],
     }),
   ],

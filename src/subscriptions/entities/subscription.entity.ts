@@ -1,16 +1,14 @@
 import {
     Entity,
     Column,
-    PrimaryGeneratedColumn,
     ManyToOne,
     BeforeInsert,
     OneToOne,
-    CreateDateColumn,
     JoinColumn
 } from 'typeorm';
-import { User } from 'users/entities/user.entity';
-import { Plan } from 'plans/entities/plan.entity';
-import {DefaultEntity} from "../../database/default.entities";
+import { User } from '@users/entities/user.entity';
+import { Plan } from '@plans/entities/plan.entity';
+import {DefaultEntity} from "@database/default.entities";
 
 @Entity()
 export class Subscription extends DefaultEntity {

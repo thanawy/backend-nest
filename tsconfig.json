@@ -17,6 +17,20 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@answers/*": ["answers/*"], // Maps "@models/" to "models/"
+      "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
+      "@collections/*": ["collections/*"], // Maps "@models/" to "models/"
+      "@database/*": ["database/*"], // Maps "@models/" to "models/"
+      "@plans/*": ["plans/*"], // Maps "@models/" to "models/"
+      "@programs/*": ["programs/*"], // Maps "@models/" to "models/"
+      "@questions/*": ["questions/*"], // Maps "@models/" to "models/"
+      "@subjects/*": ["subjects/*"], // Maps "@models/" to "models/"
+      "@subscriptions/*": ["subscriptions/*"], // Maps "@models/" to "models/"
+      "@tags/*": ["tags/*"], // Maps "@models/" to "models/"
+      "@users/*": ["users/*"], // Maps "@models/" to "models/"
+
+    }
   },
 }

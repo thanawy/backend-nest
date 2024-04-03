@@ -15,29 +15,32 @@ import { DefaultEntity } from '@database/default.entities';
 @Entity()
 export class User extends DefaultEntity {
 
-  @Column({ type: 'varchar', unique: true, nullable: true })
-  facebook_id: string;
+  @Column({ type: 'varchar', nullable: false })
+  provider: string;
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  google_id: string;
+  facebookId: string;
+
+  @Column({ type: 'varchar', unique: true, nullable: true })
+  googleId: string;
 
   @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true})
   password: string;
 
   @Column({ type: 'varchar', nullable: true })
-  display_name: string;
+  displayName: string;
 
   @Column({ type: 'varchar', nullable: true })
-  country_code: string;
+  countryCode: string;
 
   @Column({ type: 'varchar', unique: true, nullable: true })
-  phone_number: string;
+  phoneNumber: string;
 
   @Column({ type: 'varchar', default: 'student' })
-  role: string;
+  role: 'student' | 'teacher' | 'admin';
 
   @ManyToOne(() => Program, (program) => program.users)
   @JoinColumn()
@@ -50,8 +53,4 @@ export class User extends DefaultEntity {
   @JoinColumn()
   subscription: Subscription;
 
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
 }

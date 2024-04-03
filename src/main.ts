@@ -1,34 +1,61 @@
-import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import fastifyRequestLogger from "@mgcrea/fastify-request-logger";
-
+import { NestFactory } from '@nestjs/core';
+import { fastifyCookie } from '@fastify/cookie';
+import { loggerConfig } from 'config/logger.config';
+import fastifySession from '@fastify/session';
+import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
+import { Authenticator } from '@fastify/passport';
+import { SessionSerializer } from './auth/session.serializer';
+import { User } from './users/entities/user.entity';
+import { UsersService } from './users/users.service';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({
-      logger: {
-        level: 'debug',
-        transport: {
-          target: '@mgcrea/pino-pretty-compact',
-          options: {
-            colorize: true,
-            translateTime: 'HH:MM:ss Z',
-            ignore:
-              'pid,hostname',
-          },
-        },
-      },
-      disableRequestLogging: true,
+      ...loggerConfig,
     }),
   );
-  await app.register(fastifyRequestLogger)
-  await app.listen(3000);
 
+  // const fastifyPassport = new Authenticator();
+
+  await app.register(fastifyCookie);
+  await app.register(fastifySession, {
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 86400000,
+      secure: true
+    }
+  });
+
+  // await app.register(fastifyPassport.initialize());
+  // await app.register(fastifyPassport.secureSession());
+
+  await app.register(fastifyRequestLogger);
+
+  app
+    .getHttpAdapter()
+    .getInstance()
+    .addHook('onRequest', (request, reply, done) => {
+      // @ts-ignore
+      reply.setHeader = function (key, value) {
+        return this.raw.setHeader(key, value);
+      };
+      // @ts-ignore
+      reply.end = function () {
+        this.raw.end();
+      };
+      // @ts-ignore
+      request.res = reply;
+      done();
+    });
+
+  await app.listen(3000);
 }
 
 bootstrap();

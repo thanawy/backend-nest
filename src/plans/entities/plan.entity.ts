@@ -1,12 +1,11 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
 } from 'typeorm';
-import { Subscription } from 'subscriptions/entities/subscription.entity';
-import { DefaultEntity } from '../../database/default.entities';
+import { Subscription } from '@subscriptions/entities/subscription.entity';
+import { DefaultEntity } from '@database/default.entities';
 
 @Entity()
 export class Plan extends DefaultEntity {

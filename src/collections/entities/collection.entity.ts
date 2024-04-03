@@ -1,6 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany} from 'typeorm';
-import { DefaultEntity } from '../../database/default.entities';
-import {Question} from "../../questions/entities/question.entity";
+import { Entity, Column, ManyToMany } from 'typeorm';
+import { DefaultEntity } from '@database/default.entities';
+import { Question } from "@questions/entities/question.entity";
 
 @Entity()
 export class Collection extends DefaultEntity {

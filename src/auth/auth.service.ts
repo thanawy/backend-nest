@@ -27,7 +27,10 @@ export class AuthService {
     if (await this.userService.findByEmail(email)) {
       throw new UnauthorizedException('Email already exists!');
     }
-    const user = new CreateLocalUserDto(email, await bcrypt.hash(password, 10))
+    const user = new CreateLocalUserDto({
+      email: email,
+      password: await bcrypt.hash(password, 10),
+    });
     return this.userService.create(user);
   }
 }

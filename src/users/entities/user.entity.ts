@@ -1,17 +1,16 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   BeforeInsert,
   ManyToOne,
   OneToMany,
   OneToOne, JoinColumn,
 } from 'typeorm';
-import { Program } from 'programs/entities/program.entity';
-import { Answer } from 'answers/entities/answer.entity';
-import { Subscription } from 'subscriptions/entities/subscription.entity';
+import { Program } from '@programs/entities/program.entity';
+import { Answer } from '@answers/entities/answer.entity';
+import { Subscription } from '@subscriptions/entities/subscription.entity';
 import * as bcrypt from 'bcrypt';
-import { DefaultEntity } from '../../database/default.entities';
+import { DefaultEntity } from '@database/default.entities';
 
 @Entity()
 export class User extends DefaultEntity {

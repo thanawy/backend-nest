@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from 'users/entities/user.entity';
-import { Question } from 'questions/entities/question.entity';
-import { Chapter } from 'chapters/entities/chapter.entity';
-import { DefaultEntity } from '../../database/default.entities';
+import { Entity, Column, ManyToOne } from 'typeorm';
+import { User } from '@users/entities/user.entity';
+import { Question } from '@questions/entities/question.entity';
+import { Chapter } from '@chapters/entities/chapter.entity';
+import { DefaultEntity } from '@database/default.entities';
 
 @Entity()
 export class Answer extends DefaultEntity {

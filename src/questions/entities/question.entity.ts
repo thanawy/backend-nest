@@ -1,17 +1,16 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   ManyToMany,
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Chapter } from 'chapters/entities/chapter.entity'; // Assume the Chapter entity is defined elsewhere
-import { Tag } from 'tags/entities/tag.entity'; // Assume the Tag entity is defined elsewhere
-import { Answer } from 'answers/entities/answer.entity'; // Assume the Answer entity is defined elsewhere
-import { Collection } from 'collections/entities/collection.entity'; // Assume the Collection entity is defined elsewhere
-import { DefaultEntity } from 'database/default.entities';
+import { Chapter } from '@chapters/entities/chapter.entity'; // Assume the Chapter entity is defined elsewhere
+import { Tag } from '@tags/entities/tag.entity'; // Assume the Tag entity is defined elsewhere
+import { Answer } from '@answers/entities/answer.entity'; // Assume the Answer entity is defined elsewhere
+import { Collection } from '@collections/entities/collection.entity'; // Assume the Collection entity is defined elsewhere
+import { DefaultEntity } from '@database/default.entities';
 
 @Entity()
 export class Question extends DefaultEntity {

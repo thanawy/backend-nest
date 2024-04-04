@@ -6,7 +6,6 @@ import { SessionSerializer } from 'auth/session.serializer';
 import { LocalStrategy } from 'auth/strategies/local.strategy';
 import { FacebookStrategy } from 'auth/strategies/facebook.strategy';
 import { AuthController } from './auth.controller';
-import { RoleService } from './RBAC/role.service';
 
 @Module({
   imports: [UsersModule, PassportModule.register({ session: true })],
@@ -15,7 +14,6 @@ import { RoleService } from './RBAC/role.service';
     LocalStrategy,
     FacebookStrategy,
     SessionSerializer,
-    RoleService,
   ],
   controllers: [AuthController],
 })

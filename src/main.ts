@@ -5,19 +5,17 @@ import {
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { fastifyCookie } from '@fastify/cookie';
-import { loggerConfig } from 'config/logger.config';
+import { loggerConfig } from '@config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
-import { Authenticator } from '@fastify/passport';
-import { SessionSerializer } from './auth/session.serializer';
-import { User } from './users/entities/user.entity';
-import { UsersService } from './users/users.service';
+import { serverConfig } from '@config/server.config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({
       ...loggerConfig,
+      ...serverConfig,
     }),
   );
 
@@ -29,8 +27,8 @@ async function bootstrap() {
     saveUninitialized: false,
     cookie: {
       maxAge: 86400000,
-      secure: true
-    }
+      secure: true,
+    },
   });
 
   // await app.register(fastifyPassport.initialize());

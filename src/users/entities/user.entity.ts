@@ -11,6 +11,7 @@ import { Answer } from '@answers/entities/answer.entity';
 import { Subscription } from '@subscriptions/entities/subscription.entity';
 import * as bcrypt from 'bcrypt';
 import { DefaultEntity } from '@database/default.entities';
+import { Role } from '@auth/rbac/entities/role.entity';
 
 @Entity()
 export class User extends DefaultEntity {
@@ -39,8 +40,8 @@ export class User extends DefaultEntity {
   @Column({ type: 'varchar', unique: true, nullable: true })
   phoneNumber: string;
 
-  @Column({ type: 'varchar', default: 'student' })
-  role: 'student' | 'teacher' | 'admin';
+  @ManyToOne(() => Role)
+  role: Role;
 
   @ManyToOne(() => Program, (program) => program.users)
   @JoinColumn()

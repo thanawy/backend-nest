@@ -14,9 +14,9 @@ import { QuestionsModule } from './questions/questions.module';
 import { TagsModule } from './tags/tags.module';
 import { CollectionsModule } from './collections/collections.module';
 import { AuthModule } from './auth/auth.module';
-import { WinstonModule } from 'nest-winston';
-import winston from 'winston';
 import { CurrentUserGuard } from './auth/guards/current.user.guard';
+import { RolesGuard } from '@auth/rbac/roles.guard';
+import { RolesService } from '@auth/rbac/roles/roles.service';
 
 @Module({
   imports: [
@@ -37,10 +37,12 @@ import { CurrentUserGuard } from './auth/guards/current.user.guard';
   controllers: [AppController],
   providers: [
     AppService,
+    RolesService,
     {
       provide: 'APP_GUARD',
-      useClass: CurrentUserGuard,
+      useClass: CurrentUserGuard
     },
+    RolesGuard
   ],
 })
 export class AppModule {}

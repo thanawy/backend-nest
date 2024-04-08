@@ -2,14 +2,14 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '@auth/rbac/decorators/roles.decorator';
-import { RoleService } from '@auth/rbac/role.service';
 import { Permission } from '@auth/rbac/entities/permission.entity';
+import { RolesService } from '@auth/rbac/roles/roles.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private readonly roleService: RoleService,
+    private rolesService: RolesService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,20 +18,19 @@ export class RolesGuard implements CanActivate {
       context.getClass(),
     ]);
     
-    if (!requiredPermissions) {
+    if (!requiredPermissions || requiredPermissions.length === 0) {
       return true; // No permissions required, allow access
     }
 
     const request = context.switchToHttp().getRequest();
-    const userId = request.user.id; // Assuming you have user object in request
+    const user = request.user;
 
-    const userPermissions = await this.roleService.getUserPermissions(userId);
+    const userPermissions = await this.rolesService.getUserPermissions(user);
 
-    // Check if the user has any of the required permissions
-    return requiredPermissions.some(permission =>
-      userPermissions.some(userPermission =>
-        userPermission.action === permission.action && userPermission.resource === permission.resource
-      )
-    );
+    // console.log("===========>", requiredPermissions);
+    // console.log("===========>", userPermissions);
+    // return userPermissions.some((permission) => requiredPermissions.includes(permission))
+
+    return userPermissions.some((permission) => permission.action === requiredPermissions[0].action && permission.resource === requiredPermissions[0].resource);
   }
 }

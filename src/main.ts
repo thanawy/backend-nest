@@ -8,6 +8,7 @@ import { fastifyCookie } from '@fastify/cookie';
 import { loggerConfig } from '@config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
+import RedisStore from "connect-redis"
 import { serverConfig } from '@config/server.config';
 
 async function bootstrap() {
@@ -27,8 +28,8 @@ async function bootstrap() {
     saveUninitialized: false,
     cookie: {
       maxAge: 86400000,
-      secure: true,
-    },
+      secure: true
+    }
   });
 
   // await app.register(fastifyPassport.initialize());

@@ -72,6 +72,11 @@ export class AuthController {
   }
 
   @Get('status')
+  //  @Roles({ action: 'view', resource: 'status' }) // Example usage of Roles decorator
+  // get user Roles 
+  // is that role assigned to this permissions ? 
+  // if yes then allow access else deny access 
+  
   @UseGuards(AuthenticatedGuard)
   async status(
     @Session() session: secureSession.Session,

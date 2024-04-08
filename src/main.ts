@@ -11,10 +11,6 @@ import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
 import RedisStore from "connect-redis"
 import {createClient} from "redis"
-import { Authenticator } from '@fastify/passport';
-import { SessionSerializer } from './auth/session.serializer';
-import { User } from './users/entities/user.entity';
-import { UsersService } from './users/users.service';
 
 
 async function bootstrap() {
@@ -25,19 +21,11 @@ async function bootstrap() {
     }),
   );
 
-  // const fastifyPassport = new Authenticator();
-
-
   const redisClient = createClient({
-      url: process.env.REDIS_URI
-    });
-    redisClient.connect().catch(console.error)
-    // Connection Fromat ===>  redis[s]://[[username][:password]@][host][:port][/db-number]
-    
-  // const redisClient = require('redis').createClient({
-  //   host: 'localhost', // Redis host
-  //   port: 6379, // Redis port
-  // });
+    url: process.env.REDIS_URI
+  });
+  await redisClient.connect().catch(console.error)
+
 
   await app.register(fastifyCookie);
   await app.register(fastifySession, {
@@ -49,9 +37,6 @@ async function bootstrap() {
       secure: true
     }
   });
-
-  // await app.register(fastifyPassport.initialize());
-  // await app.register(fastifyPassport.secureSession());
 
   await app.register(fastifyRequestLogger);
 

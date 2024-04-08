@@ -29,8 +29,9 @@ export class RolesGuard implements CanActivate {
 
     // console.log("===========>", requiredPermissions);
     // console.log("===========>", userPermissions);
-    // return userPermissions.some((permission) => requiredPermissions.includes(permission))
+    // return userPermissions.some((permission) => permission.action === requiredPermissions[0].action && permission.resource === requiredPermissions[0].resource);
+   
+    return requiredPermissions.every((permission) => userPermissions.some((userPermission) => userPermission.equals(permission)));
 
-    return userPermissions.some((permission) => permission.action === requiredPermissions[0].action && permission.resource === requiredPermissions[0].resource);
   }
 }

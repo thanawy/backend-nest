@@ -16,8 +16,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Email not found!');
     }
-    // if (!(await bcrypt.compare(pass, user.password))) {
-      if(pass !== user.password) {
+    if (!(await bcrypt.compare(pass, user.password))) {
       throw new UnauthorizedException('Password is incorrect!');
     }
     const { password, ...result } = user;

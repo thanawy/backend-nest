@@ -1,14 +1,14 @@
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
+import { Subject } from '@subjects/entities/subject.entity';
 import { Program } from '@programs/entities/program.entity';
-import { User } from '@users/entities/user.entity';
-
-const random = require('random');
-import { pick } from 'random-js';
+import { picker, sample } from 'random-js';
 import { gaussianEngine } from '../../tools/gaussian.engine';
 import { makeMany } from '../../tools/factory.maker';
 
-export class UsersSeed implements Seeder {
+const random = require('random');
+
+export class SubjectSeed implements Seeder {
   track = true;
 
   public async run(
@@ -16,9 +16,9 @@ export class UsersSeed implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     const programs = await dataSource.getRepository(Program).find();
-    const users = await makeMany(factoryManager.get(User), 1000, {
-      program: pick(gaussianEngine, programs),
+    const subjects = await makeMany(factoryManager.get(Subject), 17, {
+      programs: sample(gaussianEngine, programs, random.int(1, 4)),
     });
-    await dataSource.getRepository(User).save(users);
+    await dataSource.getRepository(Subject).save(subjects);
   }
 }

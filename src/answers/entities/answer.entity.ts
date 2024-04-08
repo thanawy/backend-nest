@@ -1,16 +1,13 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import {Entity, Column, ManyToOne} from 'typeorm';
 import { User } from '@users/entities/user.entity';
 import { Question } from '@questions/entities/question.entity';
-import { Chapter } from '@chapters/entities/chapter.entity';
 import { DefaultEntity } from '@database/default.entities';
+import {Choice} from "@choice/entities/choice.entity";
 
 @Entity()
 export class Answer extends DefaultEntity {
 
-  @Column({ type: 'enum', enum: ['A', 'B', 'C', 'D'] })
-  chosenAnswer: string;
-
-  @Column({ type: 'int', name: 'solution_duration' })
+  @Column({ type: 'int' })
   solutionDuration: number;
 
   @ManyToOne(() => User, (user) => user.answers)
@@ -19,6 +16,6 @@ export class Answer extends DefaultEntity {
   @ManyToOne(() => Question, (question) => question.answers)
   question: Question;
 
-  @ManyToOne(() => Chapter, (chapter) => chapter.answers)
-  chapter: Chapter;
+  @ManyToOne(() => Choice, (choice) => choice.answers)
+  choice: Choice;
 }

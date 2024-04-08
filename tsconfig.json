@@ -19,8 +19,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@auth/*": ["auth/*"], // Maps "@auth/" to "auth/"
       "@answers/*": ["answers/*"], // Maps "@models/" to "models/"
       "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
+      "@choice/*": ["choice/*"], // Maps "@choice/" to "choice/"
       "@collections/*": ["collections/*"], // Maps "@models/" to "models/"
       "@database/*": ["database/*"], // Maps "@models/" to "models/"
       "@plans/*": ["plans/*"], // Maps "@models/" to "models/"

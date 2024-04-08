@@ -17,11 +17,16 @@ export class UsersService {
   }
 
   findAll() {
+
     return this.usersRepository.find();
   }
 
   async findOne(id: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ id });
+  }
+
+  async findOneWithRoles(id: string): Promise<User | null> {
+    return this.usersRepository.findOne({where: {id}, relations: { role: { permissions: true} }});
   }
 
   findOneByFacebookId(facebookId: string): Promise<User | null> {

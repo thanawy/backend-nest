@@ -11,32 +11,13 @@ import { Tag } from '@tags/entities/tag.entity'; // Assume the Tag entity is def
 import { Answer } from '@answers/entities/answer.entity'; // Assume the Answer entity is defined elsewhere
 import { Collection } from '@collections/entities/collection.entity'; // Assume the Collection entity is defined elsewhere
 import { DefaultEntity } from '@database/default.entities';
+import {Choice} from "@choice/entities/choice.entity";
 
 @Entity()
 export class Question extends DefaultEntity {
-  @Column('uuid')
-  chapterId: string;
 
   @Column()
   description: string;
-
-  @Column()
-  answerA: string;
-
-  @Column()
-  answerB: string;
-
-  @Column()
-  answerC: string;
-
-  @Column()
-  answerD: string;
-
-  @Column({
-    type: 'enum',
-    enum: ['A', 'B', 'C', 'D'],
-  })
-  correctAnswer: 'A' | 'B' | 'C' | 'D';
 
   @ManyToOne(() => Chapter, (chapter) => chapter.questions)
   chapter: Chapter;
@@ -44,6 +25,9 @@ export class Question extends DefaultEntity {
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'question_tag' })
   tags: Tag[];
+
+  @OneToMany(() => Choice, (choice) => choice.question)
+  choices: Choice[];
 
   @OneToMany(() => Answer, (answer) => answer.question)
   answers: Answer[];

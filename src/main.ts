@@ -8,6 +8,7 @@ import { fastifyCookie } from '@fastify/cookie';
 import { loggerConfig } from 'config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
+import RedisStore from "connect-redis"
 import { Authenticator } from '@fastify/passport';
 import { SessionSerializer } from './auth/session.serializer';
 import { User } from './users/entities/user.entity';

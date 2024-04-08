@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -9,10 +10,12 @@ import { loggerConfig } from 'config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
 import RedisStore from "connect-redis"
+import {createClient} from "redis"
 import { Authenticator } from '@fastify/passport';
 import { SessionSerializer } from './auth/session.serializer';
 import { User } from './users/entities/user.entity';
 import { UsersService } from './users/users.service';
+
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -24,10 +27,23 @@ async function bootstrap() {
 
   // const fastifyPassport = new Authenticator();
 
+
+  const redisClient = createClient({
+      url: process.env.REDIS_URI
+    });
+    redisClient.connect().catch(console.error)
+    // Connection Fromat ===>  redis[s]://[[username][:password]@][host][:port][/db-number]
+    
+  // const redisClient = require('redis').createClient({
+  //   host: 'localhost', // Redis host
+  //   port: 6379, // Redis port
+  // });
+
   await app.register(fastifyCookie);
   await app.register(fastifySession, {
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
+    store: new RedisStore({client: redisClient}),
     cookie: {
       maxAge: 86400000,
       secure: true

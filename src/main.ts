@@ -11,6 +11,7 @@ import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
 import RedisStore from "connect-redis"
 import {createClient} from "redis"
+import { ValidationPipe } from '@nestjs/common';
 
 
 async function bootstrap() {
@@ -20,6 +21,8 @@ async function bootstrap() {
       ...loggerConfig,
     }),
   );
+
+  app.useGlobalPipes(new ValidationPipe());
 
   const redisClient = createClient({
     url: process.env.REDIS_URI

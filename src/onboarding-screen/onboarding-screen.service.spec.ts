@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OnboardingScreenService } from './onboarding-screen.service';
+import { OnboardingScreenService } from '@onboarding-screen/onboarding-screen.service';
 
 describe('OnboardingScreenService', () => {
   let service: OnboardingScreenService;

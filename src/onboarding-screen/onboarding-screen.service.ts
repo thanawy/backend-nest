@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OnboardingScreen } from './entities/onboarding-screen.entity';
+import { OnboardingScreen } from '@onboarding-screen/entities/onboarding-screen.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOnboardingScreenDto } from './dto/create.onboarding-screen.dto';

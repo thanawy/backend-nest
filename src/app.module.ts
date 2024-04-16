@@ -17,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { CurrentUserGuard } from './auth/guards/current.user.guard';
 import { RolesGuard } from '@auth/rbac/roles.guard';
 import { RolesService } from '@auth/rbac/roles/roles.service';
-import { OnboardingScreenModule } from './onboarding-screen/onboarding-screen.module';
+import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.module';
 
 @Module({
   imports: [

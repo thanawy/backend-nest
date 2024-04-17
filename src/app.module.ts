@@ -20,7 +20,6 @@ import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.mod
 import { LessonsModule } from '@lessons/lessons.module';
 import { ClassesModule } from '@classes/classes.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -51,4 +50,5 @@ import { ClassesModule } from '@classes/classes.module';
     RolesGuard
   ],
 })
-export class AppModule {}
+export class AppModule {}import { UnitsModule } from '@units/units.module';
+

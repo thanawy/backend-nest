@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
-import { OnboardingScreen } from './entities/onboarding-screen.entity';
-import { OnboardingScreenService } from './onboarding-screen.service';
-import { CreateOnboardingScreenDto } from './dto/create.onboarding-screen.dto';
-import { UpdateOnboardingScreenDto } from './dto/update.onboarding-screen.dto';
+import { OnboardingScreen } from '@onboarding-screen/entities/onboarding-screen.entity';
+import { OnboardingScreenService } from '@onboarding-screen/onboarding-screen.service';
+import { CreateOnboardingScreenDto } from '@onboarding-screen/dto/create.onboarding-screen.dto';
+import { UpdateOnboardingScreenDto } from '@onboarding-screen/dto/update.onboarding-screen.dto';
 @Controller('onboarding-screen')
 export class OnboardingScreenController {
 

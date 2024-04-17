@@ -21,7 +21,9 @@
     "paths": {
       "@auth/*": ["auth/*"], // Maps "@auth/" to "auth/"
       "@answers/*": ["answers/*"], // Maps "@models/" to "models/"
-      "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
+      "@units/*": ["units/*"], // Maps "@models/" to "models/"
+      "@classes/*": ["classes/*"], // Maps "@models/" to "models/"
+      "@lessons/*": ["lessons/*"], // Maps "@models/" to "models/"
       "@choice/*": ["choice/*"], // Maps "@choice/" to "choice/"
       "@collections/*": ["collections/*"], // Maps "@models/" to "models/"
       "@database/*": ["database/*"], // Maps "@models/" to "models/"

@@ -8,9 +8,11 @@ import {
   Request,
   Session,
   UseGuards,
+  Req
 } from '@nestjs/common';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
+import { CreateUserDto } from '@users/dto/create.user.dto';
 import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';

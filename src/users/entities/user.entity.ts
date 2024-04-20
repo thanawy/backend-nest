@@ -5,6 +5,7 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 import { Program } from '@programs/entities/program.entity';
 import { Answer } from '@answers/entities/answer.entity';
@@ -12,6 +13,7 @@ import { Subscription } from '@subscriptions/entities/subscription.entity';
 import { DefaultEntity } from '@database/default.entities';
 import { Role } from '@auth/rbac/entities/role.entity';
 
+@Unique(['provider', 'providerId'])
 @Entity()
 export class User extends DefaultEntity {
   @Column({ type: 'varchar', nullable: false })

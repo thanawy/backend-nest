@@ -104,21 +104,22 @@ export class AddClassesUnitsAndLessons implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "question"
             DROP COLUMN "lesson_id"`);
     await queryRunner.query(
-      `ALTER TABLE "question"
-                RENAME COLUMN "unit_id" to "chapter_id"`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "question"
-                ADD CONSTRAINT "FK_749885cb1ae5482f4a25e978baa" FOREIGN KEY ("chapter") REFERENCES "chapter" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
-    );
-    await queryRunner.query(
       `ALTER TABLE "unit"
                 DROP CONSTRAINT "FK_0b622f755860a2cf7fa684210fe"`,
     );
     await queryRunner.query(`ALTER TABLE "unit"
             DROP COLUMN "class_id"`);
+
     await queryRunner.query(`ALTER TABLE "unit"
             RENAME TO "chapter"`);
+    await queryRunner.query(
+      `ALTER TABLE "question"
+                RENAME COLUMN "unit_id" to "chapter_id"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "question"
+                ADD CONSTRAINT "FK_749885cb1ae5482f4a25e978baa" FOREIGN KEY ("chapter_id") REFERENCES "chapter" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
     await queryRunner.query(`DROP TABLE "lesson"`);
     await queryRunner.query(`DROP TABLE "class"`);
   }

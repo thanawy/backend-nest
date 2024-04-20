@@ -8,13 +8,11 @@ import {
   Request,
   Session,
   UseGuards,
+  Req
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
 import { CreateUserDto } from '@users/dto/create.user.dto';
-import * as secureSession from '@fastify/secure-session';
-import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { FacebookGuard } from './guards/facebook.guard';
@@ -72,21 +70,14 @@ export class AuthController {
   }
 
   @Get('status')
-  //  @Roles({ action: 'view', resource: 'status' }) // Example usage of Roles decorator
-  // get user Roles 
-  // is that role assigned to this permissions ? 
-  // if yes then allow access else deny access 
-  
   @UseGuards(AuthenticatedGuard)
   async status(
-    @Session() session: secureSession.Session,
-    @Request() request: FastifyRequest,
+    @Req() req: any
   ) {
     return {
       message: 'Session status',
       statusCode: HttpStatus.OK,
-      session,
-      user: request.user,
+      userId: req.user
     };
   }
 }

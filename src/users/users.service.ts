@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
-      @InjectRepository(User)
-      private usersRepository: Repository<User>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -17,7 +17,6 @@ export class UsersService {
   }
 
   findAll() {
-
     return this.usersRepository.find();
   }
 
@@ -26,11 +25,17 @@ export class UsersService {
   }
 
   async findOneWithRoles(id: string): Promise<User | null> {
-    return this.usersRepository.findOne({where: {id}, relations: { role: { permissions: true} }});
+    return this.usersRepository.findOne({
+      where: { id },
+      relations: { role: { permissions: true } },
+    });
   }
 
-  findOneByFacebookId(facebookId: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ facebookId });
+  findOneByProviderId(
+    providerId: string,
+    provider: string,
+  ): Promise<User | null> {
+    return this.usersRepository.findOneBy({ providerId, provider });
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {

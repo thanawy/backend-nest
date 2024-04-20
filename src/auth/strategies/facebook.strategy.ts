@@ -27,15 +27,17 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     done,
   ): Promise<any> {
     try {
-      const user = await this.userService.findOneByFacebookId(profile.id);
+      const user = await this.userService.findOneByProviderId(
+        profile.id,
+        'facebook',
+      );
       if (!user) {
-        const newUser = await this.userService.create(
-          new CreateFacebookUserDto(
-            profile.emails[0].value,
-            profile.id,
-            profile.displayName,
-          ),
-        );
+        const dto = new CreateFacebookUserDto({
+          email: profile.emails[0].value,
+          id: profile.id,
+          displayName: profile.displayName,
+        });
+        const newUser = await this.userService.create(dto);
         return done(null, newUser);
       }
       done(null, user);

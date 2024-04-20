@@ -9,10 +9,8 @@ import {
   Session,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
-import { CreateUserDto } from '@users/dto/create.user.dto';
 import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
@@ -28,7 +26,10 @@ export class AuthController {
     @Body() credentials: any,
     @Session() session: Record<string, any>,
   ) {
-    const user = await this.authService.register(credentials.email, credentials.password);
+    const user = await this.authService.register(
+      credentials.email,
+      credentials.password,
+    );
     session.userId = user.id;
     return user;
   }
@@ -72,19 +73,14 @@ export class AuthController {
   }
 
   @Get('status')
-  //  @Roles({ action: 'view', resource: 'status' }) // Example usage of Roles decorator
-  // get user Roles 
-  // is that role assigned to this permissions ? 
-  // if yes then allow access else deny access 
-  
   @UseGuards(AuthenticatedGuard)
+  @HttpCode(HttpStatus.OK)
   async status(
     @Session() session: secureSession.Session,
     @Request() request: FastifyRequest,
   ) {
     return {
       message: 'Session status',
-      statusCode: HttpStatus.OK,
       session,
       user: request.user,
     };

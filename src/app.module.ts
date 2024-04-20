@@ -17,8 +17,8 @@ import { AuthModule } from '@auth/auth.module';
 import { CurrentUserGuard } from '@auth/guards/current.user.guard';
 import { RolesGuard } from '@auth/rbac/roles.guard';
 import { RolesService } from '@auth/rbac/roles/roles.service';
-import { LessonsModule } from './lessons/lessons.module';
-import { ClassesModule } from './classes/classes.module';
+import { LessonsModule } from '@lessons/lessons.module';
+import { ClassesModule } from '@classes/classes.module';
 
 @Module({
   imports: [
@@ -44,9 +44,9 @@ import { ClassesModule } from './classes/classes.module';
     RolesService,
     {
       provide: 'APP_GUARD',
-      useClass: CurrentUserGuard
+      useClass: CurrentUserGuard,
     },
-    RolesGuard
+    RolesGuard,
   ],
 })
 export class AppModule {}

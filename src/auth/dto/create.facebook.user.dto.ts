@@ -1,17 +1,13 @@
 import { CreateUserDto } from '@users/dto/create.user.dto';
+import { PartialType } from '@nestjs/mapped-types';
 
-export class CreateFacebookUserDto extends CreateUserDto {
-
-  constructor(email, facebookId, displayName, provider = 'facebook') {
+export class CreateFacebookUserDto extends PartialType(CreateUserDto) {
+  constructor({ email, id, displayName }) {
     super();
     this.email = email;
-    this.facebookId = facebookId;
+    this.providerId = id;
     this.displayName = displayName;
-    this.provider = provider;
+    this.provider = 'facebook';
+    this.emailVerifiedAt = new Date();
   }
-
-  email: string;
-  facebookId: string;
-  displayName: string;
-  provider = 'facebook';
 }

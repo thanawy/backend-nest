@@ -8,16 +8,14 @@ import {
   Request,
   Session,
   UseGuards,
-  Req
 } from '@nestjs/common';
 import { AuthService } from 'auth/auth.service';
 import { SignInDto } from 'users/dto/sign-in.dto';
-import { CreateUserDto } from '@users/dto/create.user.dto';
 import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
-import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { FacebookGuard } from './guards/facebook.guard';
+import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
+import { FacebookGuard } from '@auth/guards/facebook.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -39,7 +37,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalGuard)
   @Post('login')
-  async login(@Request() request, @Body() signInDto: SignInDto) {
+  async login(@Request() request) {
     return {
       user: request.user,
       message: 'Login successful',
@@ -77,10 +75,7 @@ export class AuthController {
   @Get('status')
   @UseGuards(AuthenticatedGuard)
   @HttpCode(HttpStatus.OK)
-  async status(
-    @Session() session: secureSession.Session,
-    @Request() request: FastifyRequest,
-  ) {
+  async status(@Session() session: secureSession.Session, @Request() request) {
     return {
       message: 'Session status',
       session,

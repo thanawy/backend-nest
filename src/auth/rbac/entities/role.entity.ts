@@ -1,14 +1,4 @@
-import {
-  Entity,
-  Column,
-  BeforeInsert,
-  ManyToOne,
-  OneToMany,
-  JoinTable,
-  OneToOne,
-  JoinColumn,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, JoinTable, ManyToMany } from 'typeorm';
 import { DefaultEntity } from '@database/default.entities';
 import { Permission } from '@auth/rbac/entities/permission.entity';
 

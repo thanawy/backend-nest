@@ -6,6 +6,7 @@ import { DatabaseModule } from '@database/database.module';
 import { UsersModule } from '@users/users.module';
 import { ProgramsModule } from '@programs/programs.module';
 import { SubjectsModule } from '@subjects/subjects.module';
+import { UnitsModule } from '@units/units.module'
 import { AnswersModule } from '@answers/answers.module';
 import { SubscriptionsModule } from '@subscriptions/subscriptions.module';
 import { PlansModule } from '@plans/plans.module';
@@ -18,8 +19,9 @@ import { RolesGuard } from '@auth/rbac/roles.guard';
 import { RolesService } from '@auth/rbac/roles/roles.service';
 import { LessonsModule } from '@lessons/lessons.module';
 import { ClassesModule } from '@classes/classes.module';
-import { UnitsModule } from '@units/units.module';
 import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.module';
+import { OrdersModule } from './orders/orders.module';
+import { PaymobModule } from './payments/paymob/paymob.module';
 
 @Module({
   imports: [
@@ -39,6 +41,8 @@ import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.mod
     OnboardingScreenModule,
     LessonsModule,
     ClassesModule,
+    OrdersModule,
+    PaymobModule
   ],
   controllers: [AppController],
   providers: [

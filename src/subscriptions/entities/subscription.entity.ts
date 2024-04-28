@@ -40,7 +40,7 @@ export class Subscription extends DefaultEntity {
         }
 
         if (!this.endTime) {
-            const plan = await this.plan;
+            const plan = this.plan;
             const durationInMilliseconds = (plan.duration + plan.noticePeriod) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
             this.endTime = new Date(this.startTime.getTime() + durationInMilliseconds);
         }

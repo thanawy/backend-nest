@@ -6,6 +6,7 @@ import {
 } from 'typeorm';
 import { Subscription } from '@subscriptions/entities/subscription.entity';
 import { DefaultEntity } from '@database/default.entities';
+import { Order } from '@orders/entities/order.entity';
 
 @Entity()
 export class Plan extends DefaultEntity {
@@ -35,6 +36,9 @@ export class Plan extends DefaultEntity {
 
   @OneToMany(() => Subscription, (subscription) => subscription.plan)
   subscriptions: Subscription[];
+
+  @OneToMany(() => Order, order => order.plan)
+    orders: Order[];
 
   @BeforeInsert()
   setFreeFlag(): void {

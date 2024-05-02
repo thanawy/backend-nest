@@ -20,10 +20,12 @@ import { LessonsModule } from '@lessons/lessons.module';
 import { ClassesModule } from '@classes/classes.module';
 import { UnitsModule } from '@units/units.module';
 import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.module';
+import { EmailModule } from '@mailer/mailer.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    EmailModule,
     DatabaseModule,
     UsersModule,
     ProgramsModule,

@@ -19,7 +19,7 @@ export class User extends DefaultEntity {
   @Column({ type: 'varchar', nullable: false })
   provider: string;
 
-  @Column({ type: 'varchar', unique: true, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   providerId: string;
 
   @Column({ type: 'varchar', unique: true })

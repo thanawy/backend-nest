@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from 'users/users.service';
+import { UsersService } from '@users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '@users/entities/user.entity';
 import { VerificationService } from '@auth/verification.service';

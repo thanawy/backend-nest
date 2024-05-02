@@ -116,7 +116,10 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@(answers|auth|choice|classes|units|collections|config|database|lessons|mailer|plans|programs|questions|subjects|subscriptions|tags|users|onboarding-screen)/(.*)$": ["<rootDir>/$1/$2"]
+    }
   },
   "resolutions": {
     "wrap-ansi": "7.0.0",

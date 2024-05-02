@@ -10,14 +10,13 @@ import {
   Session,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from 'auth/auth.service';
+import { AuthService } from '@auth/auth.service';
 import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
-import { LocalGuard } from 'auth/guards/local.guard';
+import { LocalGuard } from '@auth/guards/local.guard';
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { FacebookGuard } from '@auth/guards/facebook.guard';
 import { User } from '@auth/decorators/user.decorator';
-import { EmailService } from '@mailer/mailer.service';
 
 @Controller('auth')
 export class AuthController {

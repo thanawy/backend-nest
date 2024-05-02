@@ -2,7 +2,7 @@
 # Stacks detected: deps:node:.,test:jest:
 version: 2.1
 orbs:
-  node: circleci/node@5
+  node: circleci/node@21.7
 jobs:
   test-node:
     # Install node dependencies and run tests
@@ -11,14 +11,14 @@ jobs:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
       - run:
-          command: npm install jest-junit
+          name: Yarn Install dependencies
+          command: yarn install
+      - run:
+          command: yarn add jest-junit
       - run:
           name: Run tests
-          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
+          command: yarn run test --ci --runInBand --reporters=default --reporters=jest-junit
       - store_test_results:
           path: ./test-results/
   build-node:
@@ -28,9 +28,9 @@ jobs:
       - checkout
       - node/install-packages:
           cache-path: ~/project/node_modules
-          override-ci-command: npm install
+          override-ci-command: yarn install
       - run:
-          command: npm run build
+          command: yarn run build
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts

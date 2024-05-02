@@ -17,6 +17,7 @@ import { LocalGuard } from '@auth/guards/local.guard';
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { FacebookGuard } from '@auth/guards/facebook.guard';
 import { User } from '@auth/decorators/user.decorator';
+import { SessionData } from '@fastify/secure-session';
 
 @Controller('auth')
 export class AuthController {
@@ -80,7 +81,7 @@ export class AuthController {
     @Session() session: secureSession.Session,
     @Request() request: FastifyRequest,
     @User() user,
-  ) {
+  ): Promise<SessionData> {
     return {
       message: 'Session status',
       session,

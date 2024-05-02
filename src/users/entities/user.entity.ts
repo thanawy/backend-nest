@@ -1,35 +1,35 @@
 import {
   Entity,
   Column,
-  BeforeInsert,
   ManyToOne,
   OneToMany,
-  OneToOne, JoinColumn,
+  OneToOne,
+  JoinColumn,
+  Unique,
 } from 'typeorm';
 import { Program } from '@programs/entities/program.entity';
 import { Answer } from '@answers/entities/answer.entity';
 import { Subscription } from '@subscriptions/entities/subscription.entity';
-import * as bcrypt from 'bcrypt';
 import { DefaultEntity } from '@database/default.entities';
 import { Role } from '@auth/rbac/entities/role.entity';
 
+@Unique(['provider', 'providerId'])
 @Entity()
 export class User extends DefaultEntity {
-
   @Column({ type: 'varchar', nullable: false })
   provider: string;
 
-  @Column({ type: 'varchar', unique: true, nullable: true })
-  facebookId: string;
-
-  @Column({ type: 'varchar', unique: true, nullable: true })
-  googleId: string;
+  @Column({ type: 'varchar', nullable: true })
+  providerId: string;
 
   @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @Column({ type: 'varchar', nullable: true})
+  @Column({ type: 'varchar', nullable: true })
   password: string;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  emailVerifiedAt: Date;
 
   @Column({ type: 'varchar', nullable: true })
   displayName: string;
@@ -53,5 +53,4 @@ export class User extends DefaultEntity {
   @OneToOne(() => Subscription, (subscription) => subscription.user)
   @JoinColumn()
   subscription: Subscription;
-
 }

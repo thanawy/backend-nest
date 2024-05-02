@@ -19,6 +19,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
+      "@config/*": ["config/*"],
+
       "@auth/*": [
         "auth/*"
       ],

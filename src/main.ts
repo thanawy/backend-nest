@@ -6,10 +6,11 @@ import {
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { fastifyCookie } from '@fastify/cookie';
-import { loggerConfig } from 'config/logger.config';
+import { loggerConfig } from '@config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
-import RedisStore from 'connect-redis';
+import RedisStore from "connect-redis"
+import { serverConfig } from '@config/server.config';
 import { createClient } from 'redis';
 import { ValidationPipe } from '@nestjs/common';
 import { CurrentUserGuard } from '@auth/guards/current.user.guard';
@@ -19,6 +20,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({
       ...loggerConfig,
+      ...serverConfig,
     }),
   );
 

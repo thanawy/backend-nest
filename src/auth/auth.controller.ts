@@ -5,17 +5,19 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Request,
   Session,
   UseGuards,
-  Req
 } from '@nestjs/common';
 import { AuthService } from 'auth/auth.service';
-import { SignInDto } from 'users/dto/sign-in.dto';
-import { CreateUserDto } from '@users/dto/create.user.dto';
+import * as secureSession from '@fastify/secure-session';
+import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
-import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { FacebookGuard } from './guards/facebook.guard';
+import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
+import { FacebookGuard } from '@auth/guards/facebook.guard';
+import { User } from '@auth/decorators/user.decorator';
+import { EmailService } from '@mailer/mailer.service';
 
 @Controller('auth')
 export class AuthController {
@@ -26,7 +28,10 @@ export class AuthController {
     @Body() credentials: any,
     @Session() session: Record<string, any>,
   ) {
-    const user = await this.authService.register(credentials.email, credentials.password);
+    const user = await this.authService.register(
+      credentials.email,
+      credentials.password,
+    );
     session.userId = user.id;
     return user;
   }
@@ -34,7 +39,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalGuard)
   @Post('login')
-  async login(@Request() request, @Body() signInDto: SignInDto) {
+  async login(@Request() request) {
     return {
       user: request.user,
       message: 'Login successful',
@@ -71,13 +76,34 @@ export class AuthController {
 
   @Get('status')
   @UseGuards(AuthenticatedGuard)
+  @HttpCode(HttpStatus.OK)
   async status(
-    @Req() req: any
+    @Session() session: secureSession.Session,
+    @Request() request: FastifyRequest,
+    @User() user,
   ) {
     return {
       message: 'Session status',
-      statusCode: HttpStatus.OK,
-      userId: req.user
+      session,
+      user: user,
+    };
+  }
+
+  @Get('request-verification/email')
+  async requestVerificationEmail(@User() user) {
+    console.log('user:', user);
+    await this.authService.requestVerificationEmail(user);
+    return {
+      message: 'verification email sent',
+      user: user,
+    };
+  }
+
+  @Get('verify')
+  async verify(@Query('code') code: string) {
+    const user = await this.authService.verifyUser(code);
+    return {
+      message: `email ${user.email} is verified successfully!`,
     };
   }
 }

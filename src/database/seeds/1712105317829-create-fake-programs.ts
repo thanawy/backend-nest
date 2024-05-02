@@ -1,7 +1,10 @@
 import { DataSource } from 'typeorm';
 import { Program } from '@programs/entities/program.entity';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
+
 export default class ProgramSeed implements Seeder {
+  track = true;
+
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,

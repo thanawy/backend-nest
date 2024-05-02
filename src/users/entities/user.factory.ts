@@ -1,6 +1,6 @@
 import { User } from '@users/entities/user.entity';
 import { setSeederFactory } from 'typeorm-extension';
-import { CreateLocalUserDto } from '../../auth/dto/create.local.user.dto';
+import { CreateLocalUserDto } from '@auth/dto/create.local.user.dto';
 
 export default setSeederFactory(User, (faker) => {
   const user = {

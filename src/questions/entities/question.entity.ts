@@ -6,12 +6,13 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Chapter } from '@chapters/entities/chapter.entity'; // Assume the Chapter entity is defined elsewhere
+import { Unit } from '@units/entities/unit.entity'; // Assume the Unit entity is defined elsewhere
 import { Tag } from '@tags/entities/tag.entity'; // Assume the Tag entity is defined elsewhere
 import { Answer } from '@answers/entities/answer.entity'; // Assume the Answer entity is defined elsewhere
 import { Collection } from '@collections/entities/collection.entity'; // Assume the Collection entity is defined elsewhere
 import { DefaultEntity } from '@database/default.entities';
 import {Choice} from "@choice/entities/choice.entity";
+import {Lesson} from "@lessons/entities/lesson.entity";
 
 @Entity()
 export class Question extends DefaultEntity {
@@ -19,8 +20,11 @@ export class Question extends DefaultEntity {
   @Column()
   description: string;
 
-  @ManyToOne(() => Chapter, (chapter) => chapter.questions)
-  chapter: Chapter;
+  @ManyToOne(() => Unit, (unit) => unit.questions)
+  unit: Unit;
+
+  @ManyToOne(() => Lesson, (lesson) => lesson.questions)
+  lesson: Lesson;
 
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'question_tag' })

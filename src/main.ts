@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -10,6 +11,9 @@ import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
 import RedisStore from "connect-redis"
 import { serverConfig } from '@config/server.config';
+import { createClient } from 'redis';
+import { ValidationPipe } from '@nestjs/common';
+import { CurrentUserGuard } from '@auth/guards/current.user.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,20 +24,23 @@ async function bootstrap() {
     }),
   );
 
-  // const fastifyPassport = new Authenticator();
+  app.useGlobalPipes(new ValidationPipe());
+
+  const redisClient = createClient({
+    url: process.env.REDIS_URI,
+  });
+  await redisClient.connect().catch(console.error);
 
   await app.register(fastifyCookie);
   await app.register(fastifySession, {
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
+    store: new RedisStore({ client: redisClient }),
     cookie: {
       maxAge: 86400000,
-      secure: true
-    }
+      secure: true,
+    },
   });
-
-  // await app.register(fastifyPassport.initialize());
-  // await app.register(fastifyPassport.secureSession());
 
   await app.register(fastifyRequestLogger);
 

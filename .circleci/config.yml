@@ -67,8 +67,8 @@ workflows:
       - deploy-to-gcp:
           requires:
             - build-node
-          filters:
-            branches:
-              only:
-                - master
-                - develop
+#          filters:
+#            branches:
+#              only:
+#                - master
+#                - develop

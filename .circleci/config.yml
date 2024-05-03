@@ -3,6 +3,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.2.0
+  gcp: circleci/gcp-cli@3.1.1
 jobs:
   test-node:
     # Install node dependencies and run tests
@@ -41,15 +42,21 @@ jobs:
       - store_artifacts:
           path: ~/artifacts
           destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+  deploy-to-gcp:
+    # Deploy to GCP
+    executor: gcp/default
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
+      - gcp/install
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Deploy to GCP
+          command: |
+            gcloud app deploy
+            gcloud app browse
+      - persist_to_workspace:
+          root: ~/artifacts
+          paths:
+            - node-build
 workflows:
   build-and-test:
     jobs:

@@ -59,11 +59,16 @@ jobs:
             - node-build
 workflows:
   build-and-test:
+    when:
+
     jobs:
 #      - test-node
       - build-node
-#          requires:
-#            - test-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+      - deploy-to-gcp:
+          requires:
+            - build-node
+          filters:
+            branches:
+              only:
+                - master
+                - develop

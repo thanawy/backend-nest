@@ -31,6 +31,9 @@ jobs:
           name: Yarn Install dependencies
           command: yarn install
       - run:
+          name: Yarn version
+          command: yarn list --pattern fastify
+      - run:
           command: yarn run build
       - run:
           name: Create the ~/artifacts directory if it doesn't exist

@@ -1,5 +1,5 @@
 name: Unit Tests
-
+run-name: Running unit tests ✅
 on:
   push:
     branches: [ "master" ]

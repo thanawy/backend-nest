@@ -1,13 +1,13 @@
 name: Build and Deploy to Cloud Run
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_run:
+    workflows: [ Unit Tests ]
+    types:
+      - completed
 
 env:
-  PROJECT_ID: thanawy # TODO: update Google Cloud project id
+  PROJECT_ID: thanawy
 
 jobs:
   job_id:

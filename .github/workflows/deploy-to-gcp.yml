@@ -6,6 +6,7 @@ on:
 
 env:
   PROJECT_ID: thanawy
+  SERVICE_ACCOUNT: github-actions@thanawy.iam.gserviceaccount.com
 
 jobs:
   job_id:
@@ -23,7 +24,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: 'projects/934017043258/locations/global/workloadIdentityPools/github-actions-pool/providers/thanawy-github-actions-provider'
-          service_account: 'github-actions@thanawy.iam.gserviceaccount.com'
+          service_account: ${{ env.SERVICE_ACCOUNT }}
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
@@ -34,7 +35,7 @@ jobs:
         run: 'gcloud info'
 
       - name: 'gcloud set account'
-        run: 'gcloud auth list'
+        run: 'gcloud config set account `${{ env.SERVICE_ACCOUNT }}`'
 
       - name: 'Deploy to Compute Engine'
         run: 'gcloud deployment-manager deployments create quickstart-deployment --config deploy/nestjs-server.yaml'

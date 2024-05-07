@@ -23,7 +23,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: 'projects/934017043258/locations/global/workloadIdentityPools/github-actions-pool/providers/thanawy-github-actions-provider'
+          workload_identity_provider: 'https://iam.googleapis.com/projects/934017043258/locations/global/workloadIdentityPools/github-actions-pool/providers/thanawy-github-actions-provider'
           service_account: ${{ env.SERVICE_ACCOUNT }}
 
       - name: 'Set up Cloud SDK'

@@ -33,5 +33,8 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
+      - name: 'gcloud set account'
+        run: 'gcloud auth list'
+
       - name: 'Deploy to Compute Engine'
         run: 'gcloud deployment-manager deployments create quickstart-deployment --config deploy/nestjs-server.yaml'

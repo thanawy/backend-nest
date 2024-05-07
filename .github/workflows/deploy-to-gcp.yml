@@ -32,10 +32,6 @@ jobs:
           version: '>= 363.0.0'
 
       - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
-      - name: 'gcloud set account'
-        run: 'gcloud config set account ${{ env.SERVICE_ACCOUNT }}'
-
-      - name: 'Deploy to Compute Engine'
-        run: 'gcloud deployment-manager deployments create quickstart-deployment --config deploy/nestjs-server.yaml'
+      - run: 'gcloud info'
+      - run: 'gcloud config set account ${{ env.SERVICE_ACCOUNT }}'
+      - run: 'gcloud deployment-manager deployments create quickstart-deployment --config deploy/nestjs-server.yaml'

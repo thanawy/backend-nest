@@ -39,7 +39,7 @@ jobs:
           registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
           image_name: thanawy-nestjs-server
-          image_tag: ${{ github.event.number }}
+          image_tag: ${{github.event.issue.number}}
           dockerfile: ./Dockerfile
           context: ./
 

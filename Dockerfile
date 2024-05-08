@@ -3,11 +3,12 @@ LABEL authors="thanawy"
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY . .
+
+RUN ls -lah
 
 RUN yarn install
 
-COPY . .
 
 RUN yarn run build
 

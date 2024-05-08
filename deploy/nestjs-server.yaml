@@ -6,12 +6,20 @@
 #
 # For a list of supported resources,
 # see https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types.
+imports:
+  - path: deploy/container_manifest.yaml
+    name: container_manifest
+
 resources:
   - type: compute.v1.instance
     name: thanawy-nestjs-vm
     properties:
       zone: us-central1-f
       machineType: https://www.googleapis.com/compute/v1/projects/thanawy/zones/us-central1-f/machineTypes/f1-micro
+      metadata:
+        items:
+          - key: gce-container-declaration
+            value: container_manifest
       disks:
         - deviceName: boot
           type: PERSISTENT
@@ -20,7 +28,7 @@ resources:
           initializeParams:
             # See a full list of image families at https://cloud.google.com/compute/docs/images#os-compute-support
             # The format of the sourceImage URL is: https://www.googleapis.com/compute/v1/projects/[IMAGE_PROJECT]/global/images/family/[FAMILY_NAME]
-            sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-11
+            sourceImage: https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/family/cos-stable
       networkInterfaces:
         - network: https://www.googleapis.com/compute/v1/projects/thanawy/global/networks/default
           # Access Config required to give the instance a public IP address

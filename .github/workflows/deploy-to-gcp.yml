@@ -31,15 +31,16 @@ jobs:
         with:
           version: '>= 363.0.0'
 
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
-      - uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
+      - name: Build and push docker image
+        uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
           registry: gcr.io
           project_id: ${{ env.PROJECT_ID }}
           image_name: thanawy-nestjs-server
           image_tag: ${{github.event.issue.number}}
 
-      - name: 'Deploy to Compute Engine'
-        run: 'gcloud deployment-manager deployments update backend-server --config deploy/nestjs-server.yaml'
+      - name: Deploy to Google Cloud
+        uses: ghost-road-studio/deployment-manager@v0
+        with:
+          deployment: backend-server
+          template: deploy/nestjs-server.yaml

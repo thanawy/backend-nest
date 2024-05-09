@@ -9,6 +9,7 @@ on:
 env:
   PROJECT_ID: thanawy
   SERVICE_ACCOUNT: github-actions@thanawy.iam.gserviceaccount.com
+  DEPLOYMENT_NAME: backend-server
 
 jobs:
   build:
@@ -41,6 +42,7 @@ jobs:
         uses: actions/checkout@v2
 
       - id: 'auth'
+        name: 'Authenticate with Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: 'projects/934017043258/locations/global/workloadIdentityPools/github-actions-pool/providers/thanawy-github-actions-provider'
@@ -60,7 +62,11 @@ jobs:
           image_tag: ${{github.event.issue.number}}
 
       - name: Deploy to Google Cloud
-        uses: ghost-road-studio/deployment-manager@v0
-        with:
-          deployment: backend-server
-          config: deploy/nestjs-server.yaml
+        run: |
+          if gcloud deployment-manager deployments describe ${{ DEPLOYMENT_NAME }} &> /dev/null; then
+            echo "Deployment exists, updating..."
+            gcloud deployment-manager deployments update ${{ DEPLOYMENT_NAME }} --config=deploy/nestjs-server.yaml
+          else
+            echo "Creating deployment..."
+            gcloud deployment-manager deployments create ${{ DEPLOYMENT_NAME }} --config=deploy/nestjs-server.yaml
+          fi

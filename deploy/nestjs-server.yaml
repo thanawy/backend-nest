@@ -35,3 +35,36 @@ resources:
           accessConfigs:
             - name: External NAT
               type: ONE_TO_ONE_NAT
+          tags:
+            items:
+              - http-server
+              - https-server
+
+
+        # Firewall rule for HTTP traffic
+  - type: compute.v1.firewall
+    name: allow-http
+    properties:
+      network: https://www.googleapis.com/compute/v1/projects/thanawy/global/networks/default
+      allowed:
+        - IPProtocol: TCP
+          ports:
+            - '80'
+      targetTags:
+        - http-server
+      sourceRanges:
+        - '0.0.0.0/0'
+
+  # Firewall rule for HTTPS traffic
+  - type: compute.v1.firewall
+    name: allow-https
+    properties:
+      network: https://www.googleapis.com/compute/v1/projects/thanawy/global/networks/default
+      allowed:
+        - IPProtocol: TCP
+          ports:
+            - '443'
+      targetTags:
+        - https-server
+      sourceRanges:
+        - '0.0.0.0/0'

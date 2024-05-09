@@ -5,13 +5,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN ls -lah
-
 RUN yarn install
-
-
 RUN yarn run build
 
 CMD [ "yarn", "run", "start" ]
-
 ENTRYPOINT ["top", "-b"]

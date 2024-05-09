@@ -7,7 +7,7 @@
 # For a list of supported resources,
 # see https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types.
 imports:
-  - path: deploy/container_manifest.yaml
+  - path: container_manifest.yaml
     name: container_manifest
 
 resources:

@@ -4,7 +4,7 @@ metadata:
   name: simple-echo
 spec:
   containers:
-    - name: simple-echo
+    - name: nestjs-server
       image: gcr.io/thanawy/thanawy-nestjs-server:latest
       imagePullPolicy: Always
       ports:

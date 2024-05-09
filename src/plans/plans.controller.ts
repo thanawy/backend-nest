@@ -7,7 +7,7 @@ import { UpdatePlanDto } from './dto/update-plan.dto';
 export class PlansController {
   constructor(private readonly plansService: PlansService) {}
 
-  @Post()
+  @Post("create")
   create(@Body() createPlanDto: CreatePlanDto) {
     return this.plansService.create(createPlanDto);
   }

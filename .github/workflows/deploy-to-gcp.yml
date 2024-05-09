@@ -1,4 +1,6 @@
 name: Build and Deploy to Google Cloud
+run-name: Build and Deploy to Google Cloud
+
 
 on:
   pull_request:
@@ -9,7 +11,24 @@ env:
   SERVICE_ACCOUNT: github-actions@thanawy.iam.gserviceaccount.com
 
 jobs:
-  job_id:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 21.7.1 ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn run build
+  #      - run: yarn test
+  deploy:
     # Add "id-token" with the intended permissions.
     permissions:
       contents: 'read'

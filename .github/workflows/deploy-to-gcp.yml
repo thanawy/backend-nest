@@ -63,10 +63,5 @@ jobs:
 
       - name: Deploy to Google Cloud
         run: |
-          if gcloud deployment-manager deployments describe ${{ env.DEPLOYMENT_NAME }} &> /dev/null; then
-            echo "Deployment exists, updating..."
-            gcloud deployment-manager deployments update ${{ env.DEPLOYMENT_NAME }} --config=deploy/nestjs-server.yaml
-          else
-            echo "Creating deployment..."
-            gcloud deployment-manager deployments create ${{ env.DEPLOYMENT_NAME }} --config=deploy/nestjs-server.yaml
-          fi
+          terraform init
+          terraform apply -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}"

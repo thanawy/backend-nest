@@ -43,4 +43,4 @@ jobs:
         uses: ghost-road-studio/deployment-manager@v0
         with:
           deployment: backend-server
-          template: deploy/nestjs-server.yaml
+          config: deploy/nestjs-server.yaml

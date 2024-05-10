@@ -8,4 +8,4 @@ COPY . .
 RUN yarn install
 RUN yarn run build
 
-CMD ["./startup.sh"]
+CMD ["echo $SECRETS | base64 --decode > /app/.env & yarn start"]

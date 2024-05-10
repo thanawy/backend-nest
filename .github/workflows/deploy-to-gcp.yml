@@ -7,8 +7,8 @@ on:
     branches: [ "master" ]
 
 env:
-  PROJECT_ID: thanawy
-  SERVICE_ACCOUNT: github-actions@thanawy.iam.gserviceaccount.com
+  PROJECT_ID: thanawy-com
+  SERVICE_ACCOUNT: github-actions@thanawy-com.iam.gserviceaccount.com
   DEPLOYMENT_NAME: backend-server
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         name: 'Authenticate with Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: 'projects/934017043258/locations/global/workloadIdentityPools/github-actions-pool/providers/thanawy-github-actions-provider'
+          workload_identity_provider: 'projects/337076294006/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
           service_account: ${{ env.SERVICE_ACCOUNT }}
 
       - name: 'Set up Cloud SDK'
@@ -56,12 +56,13 @@ jobs:
       - name: Build and push docker image
         uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
-          registry: gcr.io
+          registry: thanawy.com
           project_id: ${{ env.PROJECT_ID }}
-          image_name: thanawy-nestjs-server
+          image_name: nestjs-server
           image_tag: ${{github.event.issue.number}}
 
       - name: Deploy to Google Cloud
         run: |
+          cd deploy
           terraform init
-          terraform -chdir=deploy apply -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}"
+          terraform apply -auto-approve"

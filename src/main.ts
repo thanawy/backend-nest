@@ -61,7 +61,7 @@ async function bootstrap() {
       done();
     });
 
-  await app.listen(80);
+  await app.listen(80, '0.0.0.0');
 }
 
 bootstrap();

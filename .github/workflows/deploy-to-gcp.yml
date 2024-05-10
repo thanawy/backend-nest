@@ -56,7 +56,7 @@ jobs:
       - name: Build and push docker image
         uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
         with:
-          registry: thanawy.com
+          registry: gcr
           project_id: ${{ env.PROJECT_ID }}
           image_name: nestjs-server
           image_tag: ${{github.event.issue.number}}

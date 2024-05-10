@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn install
-RUN yarn run build
+RUN yarn install && yarn run build
 
-CMD ["sh", "-c", "echo $SECRETS | base64 --decode > /app/.env && yarn start"]
+ENTRYPOINT ["sh", "-c"]
+CMD ["./startup.sh"]

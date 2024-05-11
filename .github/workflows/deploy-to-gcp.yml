@@ -65,7 +65,7 @@ jobs:
       - name: Deploy to Google Cloud
         env: # Or as an environment variable
           TF_VAR_secrets: ${{ secrets.ENVIRONMENT_VARIABLES }}
-        run: |
+        run:
           cd deploy
           terraform init
-          terraform apply -auto-approve"
+          terraform apply -auto-approve

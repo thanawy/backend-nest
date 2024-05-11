@@ -37,8 +37,26 @@ resource "google_dns_managed_zone" "thanawy_com" {
 }
 
 resource "google_dns_record_set" "thanawy_com" {
+  count = 0
   managed_zone = google_dns_managed_zone.thanawy_com.name
-  name         = "www.thanawy.com"
+  name         = "www.thanawy.com."
+  type         = "A"
+  rrdatas = [google_compute_address.static_ip_address.address]
+  ttl     = 300
+}
+
+resource "google_dns_record_set" "thanawy_com_no_subdomain" {
+  count = 0
+  managed_zone = google_dns_managed_zone.thanawy_com.name
+  name         = "thanawy.com."
+  type         = "A"
+  rrdatas = [google_compute_address.static_ip_address.address]
+  ttl     = 300
+}
+
+resource "google_dns_record_set" "staging_thanawy_com" {
+  managed_zone = google_dns_managed_zone.thanawy_com.name
+  name         = "staging.thanawy.com."
   type         = "A"
   rrdatas = [google_compute_address.static_ip_address.address]
   ttl     = 300

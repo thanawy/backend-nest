@@ -7,7 +7,8 @@ variable "gcp_service_list" {
     "artifactregistry.googleapis.com",
     "iamcredentials.googleapis.com",
     "cloudresourcemanager.googleapis.com",
-    "serviceusage.googleapis.com"
+    "serviceusage.googleapis.com",
+    "dns.googleapis.com",
   ]
 }
 

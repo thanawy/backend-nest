@@ -27,6 +27,8 @@ variable "gcp_service_account_roles" {
   description ="The list of roles necessary for the service account to function properly."
   type = list(string)
   default = [
+    "roles/dns.peer",
+    "roles/dns.admin",
     "roles/compute.admin",
     "roles/compute.networkAdmin",
     "roles/compute.instanceAdmin.v1",

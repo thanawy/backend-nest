@@ -9,6 +9,7 @@ variable "gcp_service_list" {
     "cloudresourcemanager.googleapis.com",
     "serviceusage.googleapis.com",
     "dns.googleapis.com",
+    "iam.googleapis.com",
   ]
 }
 

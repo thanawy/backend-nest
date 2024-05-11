@@ -27,10 +27,11 @@ variable "gcp_service_account_roles" {
   description ="The list of apis necessary for the project"
   type = list(string)
   default = [
-    "roles/artifactregistry.admin",
-    "roles/artifactregistry.createOnPushRepoAdmin",
     "roles/compute.admin",
     "roles/compute.networkAdmin",
+    "roles/compute.instanceAdmin.v1",
+    "roles/artifactregistry.admin",
+    "roles/artifactregistry.createOnPushRepoAdmin",
     "roles/iam.serviceAccountTokenCreator",
   ]
 }

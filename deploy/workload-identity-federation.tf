@@ -30,12 +30,15 @@ variable "gcp_service_account_roles" {
     "roles/dns.peer",
     "roles/dns.admin",
     "roles/compute.admin",
+    "roles/iam.serviceAccountAdmin",
     "roles/compute.networkAdmin",
-    "roles/compute.instanceAdmin.v1",
     "roles/artifactregistry.admin",
-    "roles/artifactregistry.createOnPushRepoAdmin",
+    "roles/compute.instanceAdmin.v1",
+    "roles/iam.workloadIdentityPoolAdmin",
     "roles/iam.serviceAccountTokenCreator",
     "roles/serviceusage.serviceUsageViewer",
+    "roles/artifactregistry.createOnPushRepoAdmin",
+
   ]
 }
 

@@ -68,5 +68,4 @@ jobs:
         run: |
           cd deploy
           terraform init
-          terraform destroy -auto-approve
-          terraform apply -auto-approve
+          terraform plan

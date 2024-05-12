@@ -52,7 +52,7 @@ resource "google_project_iam_binding" "github_actions_roles_binding" {
 }
 
 resource "google_service_account_iam_member" "github_actions_workload_identity_user" {
-  service_account_id = "projects/${data.google_project.project.project_id}/serviceAccounts/${google_service_account.github_actions.email}"
+  service_account_id = google_service_account.github_actions.id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/projects/${data.google_project.project.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.pool.workload_identity_pool_id}/attribute.repository/thanawy/backend-nest"
 }

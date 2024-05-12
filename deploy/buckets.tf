@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "terraform_state_bucket" {
   name          = "thanawy-com-bucket-tfstate"
-  force_destroy = false
+  force_destroy = true
   location      = "US"
   storage_class = "STANDARD"
   versioning {
@@ -9,4 +9,5 @@ resource "google_storage_bucket" "terraform_state_bucket" {
   depends_on = [
     google_project_service.gcp_services
   ]
+
 }

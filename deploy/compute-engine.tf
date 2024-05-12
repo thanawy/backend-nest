@@ -11,6 +11,7 @@ variable "secrets" {
   type        = string
   sensitive   = true
 }
+
 resource "google_compute_instance" "nestjs" {
   boot_disk {
     auto_delete = true
@@ -71,6 +72,8 @@ resource "google_compute_instance" "nestjs" {
     enable_vtpm                 = true
   }
 
-  tags = ["http-server", "https-server"]
+  tags = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
   zone = "us-central1-f"
+  depends_on = [google_project_service.gcp_services]
+
 }

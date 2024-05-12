@@ -24,9 +24,9 @@ resource "google_service_account" "github_actions" {
 }
 
 variable "gcp_service_account_roles" {
-  description ="The list of roles necessary for the service account to function properly."
-  type = list(string)
-  default = [
+  description = "The list of roles necessary for the service account to function properly."
+  type        = list(string)
+  default     = [
     "roles/dns.peer",
     "roles/dns.admin",
     "roles/compute.admin",
@@ -38,15 +38,16 @@ variable "gcp_service_account_roles" {
     "roles/iam.workloadIdentityPoolAdmin",
     "roles/iam.serviceAccountTokenCreator",
     "roles/serviceusage.serviceUsageViewer",
+    "roles/resourcemanager.projectIamAdmin",
     "roles/artifactregistry.createOnPushRepoAdmin",
   ]
 }
 
 resource "google_project_iam_binding" "github_actions_roles_binding" {
   for_each = toset(var.gcp_service_account_roles)
-  project = data.google_project.project.project_id
-  role = each.key
-  members = [
+  project  = data.google_project.project.project_id
+  role     = each.key
+  members  = [
     "serviceAccount:${google_service_account.github_actions.email}"
   ]
 }

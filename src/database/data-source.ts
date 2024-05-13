@@ -6,6 +6,7 @@ import { SeederOptions } from 'typeorm-extension';
 
 dotenv.config();
 
+// only for seeds (mlosh lazma ya3ni)
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,

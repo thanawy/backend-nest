@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { DataSource } from 'typeorm';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -19,6 +20,7 @@ import { DataSource } from 'typeorm';
         migrations: [__dirname + '/../database/migrations/**{.ts,.js}'],
         synchronize: configService.get('DB_SYNC') === 'true', // Caution: true only for development,
         namingStrategy: new SnakeNamingStrategy(),
+        logging: true,
       }),
       dataSourceFactory: async (options) => {
         return await new DataSource(options).initialize();
@@ -26,5 +28,6 @@ import { DataSource } from 'typeorm';
       inject: [ConfigService],
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

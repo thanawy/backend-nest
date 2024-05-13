@@ -30,7 +30,7 @@ export class Question extends DefaultEntity {
   @JoinTable({ name: 'question_tag' })
   tags: Tag[];
 
-  @OneToMany(() => Choice, (choice) => choice.question)
+  @OneToMany(() => Choice, (choice) => choice.question, { cascade: ['insert', 'update'] })
   choices: Choice[];
 
   @OneToMany(() => Answer, (answer) => answer.question)

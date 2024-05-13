@@ -20,6 +20,7 @@ async function bootstrap() {
     new FastifyAdapter({
       ...loggerConfig,
     }),
+    {cors: true},
   );
 
   app.useGlobalPipes(new ValidationPipe());
@@ -59,7 +60,7 @@ async function bootstrap() {
       done();
     });
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 
 bootstrap();

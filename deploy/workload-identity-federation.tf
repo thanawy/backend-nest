@@ -4,7 +4,7 @@ resource "google_iam_workload_identity_pool" "pool" {
   workload_identity_pool_id = "github-actions-pool"
   display_name              = "Thanawy Github Actions WIF Pool"
   lifecycle {
-    prevent_destroy           = true
+    prevent_destroy = true
   }
 }
 
@@ -19,7 +19,7 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
     issuer_uri = "https://token.actions.githubusercontent.com/"
   }
   lifecycle {
-    prevent_destroy           = true
+    prevent_destroy = true
   }
 }
 
@@ -28,7 +28,7 @@ resource "google_service_account" "github_actions" {
   account_id   = "github-actions"
   display_name = "Github Actions"
   lifecycle {
-    prevent_destroy           = true
+    prevent_destroy = true
   }
 }
 
@@ -59,7 +59,7 @@ resource "google_project_iam_binding" "github_actions_roles_binding" {
   members  = [
     "serviceAccount:${google_service_account.github_actions.email}"
   ]
-  depends_on = [null_resource.delete_me, google_service_account.github_actions]
+  lifecycle { prevent_destroy = true }
 }
 
 resource "google_service_account_iam_member" "github_actions_workload_identity_user" {

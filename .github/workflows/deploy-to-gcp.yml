@@ -68,5 +68,4 @@ jobs:
         run: |
           cd deploy
           terraform init
-#          terraform destroy --target null_resource.delete_me --auto-approve
           terraform apply --auto-approve

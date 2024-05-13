@@ -79,7 +79,10 @@ resource "google_compute_instance" "nestjs" {
   tags       = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
   zone       = "us-central1-f"
   depends_on = [
-    google_project_service.gcp_services, google_compute_firewall.allow_http, google_compute_firewall.allow_https, null_resource.delete_me
+    google_project_service.gcp_services,
+    google_compute_firewall.allow_http,
+    google_compute_firewall.allow_https,
+    google_project_iam_binding.github_actions_roles_binding,
+    null_resource.delete_me
   ]
-
 }

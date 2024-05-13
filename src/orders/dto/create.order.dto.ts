@@ -1,12 +1,12 @@
+import { Plan } from '@plans/entities/plan.entity';
+import { User } from '@users/entities/user.entity';
 import { IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
 export class CreateOrderDto {
 
-    @IsString()
-    planId: string;
+    plan: Plan;
 
     @IsString()
     orderId: string;
 
-    @IsString()
-    userId: string;
+    user: User;
 }

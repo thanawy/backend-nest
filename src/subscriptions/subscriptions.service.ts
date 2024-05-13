@@ -15,22 +15,27 @@ export class SubscriptionsService {
 
 
   create(createSubscriptionDto: CreateSubscriptionDto) {
-    return this.subscriptionRepository.save(createSubscriptionDto);
+    const entity = this.subscriptionRepository.create(createSubscriptionDto);
+    return this.subscriptionRepository.save(entity);
   }
 
   findAll() {
-    return `This action returns all subscriptions`;
+    return this.subscriptionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subscription`;
+  findOneByUserId(userId: string) {
+    return this.subscriptionRepository.findOneBy({ user: { id: userId } });
   }
 
-  update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return `This action updates a #${id} subscription`;
+  findOne(id: string) {
+    return this.subscriptionRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subscription`;
+  update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
+    return this.subscriptionRepository.update(id, updateSubscriptionDto);
+  }
+
+  remove(id: string) {
+    return this.subscriptionRepository.delete(id);
   }
 }

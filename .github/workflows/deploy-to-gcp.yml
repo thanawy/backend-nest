@@ -1,0 +1,71 @@
+name: Build and Deploy to Google Cloud
+run-name: Build and Deploy to Google Cloud
+
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  PROJECT_ID: thanawy-com
+  SERVICE_ACCOUNT: github-actions@thanawy-com.iam.gserviceaccount.com
+  DEPLOYMENT_NAME: backend-server
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 21.7.1 ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn run build
+  #      - run: yarn test
+  deploy:
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: 'auth'
+        name: 'Authenticate with Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: 'projects/337076294006/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+
+      - name: Build and push docker image
+        uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
+        with:
+          registry: gcr.io
+          project_id: ${{ env.PROJECT_ID }}
+          image_name: nestjs-server
+          image_tag: ${{github.event.issue.number}}
+
+      - name: Deploy to Google Cloud
+        env: # Or as an environment variable
+          TF_VAR_secrets: ${{ secrets.ENVIRONMENT_VARIABLES }}
+        run: |
+          cd deploy
+          terraform init
+          terraform plan

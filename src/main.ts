@@ -9,7 +9,7 @@ import { fastifyCookie } from '@fastify/cookie';
 import { loggerConfig } from '@config/logger.config';
 import fastifySession from '@fastify/session';
 import fastifyRequestLogger from '@mgcrea/fastify-request-logger';
-import RedisStore from "connect-redis"
+import RedisStore from 'connect-redis';
 import { serverConfig } from '@config/server.config';
 import { createClient } from 'redis';
 import { ValidationPipe } from '@nestjs/common';
@@ -61,7 +61,7 @@ async function bootstrap() {
       done();
     });
 
-  await app.listen(3000);
+  await app.listen(80, '0.0.0.0');
 }
 
 bootstrap();

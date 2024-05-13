@@ -17,12 +17,11 @@ resource "google_storage_bucket_iam_binding" "bucket_iam_binding" {
   role   = "roles/storage.legacyBucketOwner"
 
   members = [
-#    "serviceAccount:${google_service_account.github_actions.email}",
-#    "projectOwner:${data.google_project.project.project_id}",
-#    "projectEditor:${data.google_project.project.project_id}"
+    "serviceAccount:${google_service_account.github_actions.email}",
+    "projectOwner:${data.google_project.project.project_id}",
+    "projectEditor:${data.google_project.project.project_id}"
   ]
   lifecycle {
     prevent_destroy = true
-    ignore_changes = [members]
   }
 }

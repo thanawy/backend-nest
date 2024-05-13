@@ -27,7 +27,9 @@ resource "google_iam_workload_identity_pool_provider" "provider" {
 resource "google_service_account" "github_actions" {
   account_id   = "github-actions"
   display_name = "Github Actions"
-  depends_on = [null_resource.delete_me]
+  lifecycle {
+    prevent_destroy           = true
+  }
 }
 
 variable "gcp_service_account_roles" {
@@ -64,5 +66,7 @@ resource "google_service_account_iam_member" "github_actions_workload_identity_u
   service_account_id = google_service_account.github_actions.id
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/projects/${data.google_project.project.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.pool.workload_identity_pool_id}/attribute.repository/thanawy/backend-nest"
-  depends_on = [null_resource.delete_me, google_service_account.github_actions]
+  lifecycle {
+    prevent_destroy = true
+  }
 }

@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket  = "thanawy-com-bucket-tfstate"
+    bucket  = "thanawy-com-tfstate"
     prefix  = "terraform/state"
   }
 }

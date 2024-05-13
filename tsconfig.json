@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "dist/src",
     "incremental": false,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -37,8 +37,10 @@
       "@tags/*": ["tags/*"], // Maps "@models/" to "models/"
       "@users/*": ["users/*"], // Maps "@models/" to "models/"
       "@payments/*": ["payments/*"], // Maps "@models/" to "models/"
-
-
+      "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
+      "@config/*": ["config/*"],
+      "@mailer/*": ["mailer/*"],
+      "@verification/*": ["auth/verification/*"]
     }
-  },
+  }
 }

@@ -5,17 +5,19 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Request,
   Session,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from 'auth/auth.service';
-import { SignInDto } from 'users/dto/sign-in.dto';
 import * as secureSession from '@fastify/secure-session';
 import { FastifyRequest } from 'fastify';
 import { LocalGuard } from 'auth/guards/local.guard';
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { FacebookGuard } from '@auth/guards/facebook.guard';
+import { User } from '@auth/decorators/user.decorator';
+import { EmailService } from '@mailer/mailer.service';
 
 @Controller('auth')
 export class AuthController {
@@ -75,11 +77,33 @@ export class AuthController {
   @Get('status')
   @UseGuards(AuthenticatedGuard)
   @HttpCode(HttpStatus.OK)
-  async status(@Session() session: secureSession.Session, @Request() request) {
+  async status(
+    @Session() session: secureSession.Session,
+    @Request() request: FastifyRequest,
+    @User() user,
+  ) {
     return {
       message: 'Session status',
       session,
-      user: request.user,
+      user: user,
+    };
+  }
+
+  @Get('request-verification/email')
+  async requestVerificationEmail(@User() user) {
+    console.log('user:', user);
+    await this.authService.requestVerificationEmail(user);
+    return {
+      message: 'verification email sent',
+      user: user,
+    };
+  }
+
+  @Get('verify')
+  async verify(@Query('code') code: string) {
+    const user = await this.authService.verifyUser(code);
+    return {
+      message: `email ${user.email} is verified successfully!`,
     };
   }
 }

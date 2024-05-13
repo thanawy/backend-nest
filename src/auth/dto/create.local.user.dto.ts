@@ -1,5 +1,5 @@
 import { CreateUserDto } from '@users/dto/create.user.dto';
-import {PartialType} from "@nestjs/mapped-types";
+import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateLocalUserDto extends PartialType(CreateUserDto) {
   constructor({ email, password }) {
@@ -8,5 +8,4 @@ export class CreateLocalUserDto extends PartialType(CreateUserDto) {
     this.password = password;
     this.provider = 'local';
   }
-
 }

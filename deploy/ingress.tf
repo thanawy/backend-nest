@@ -1,7 +1,7 @@
 resource "google_compute_address" "static_ip_address" {
   name   = "nestjs-static-ip-address"
   region = "us-central1"
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 }
 
 # Firewall rule for HTTP traffic
@@ -16,7 +16,7 @@ resource "google_compute_firewall" "allow_http" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server"]
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 }
 
 # Firewall rule for HTTPS traffic
@@ -31,13 +31,13 @@ resource "google_compute_firewall" "allow_https" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["https-server"]
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 }
 
 resource "google_dns_managed_zone" "thanawy_com" {
   name     = "thanawy-com-managed-zone"
   dns_name = "thanawy.com."
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 
 }
 
@@ -48,7 +48,7 @@ resource "google_dns_record_set" "thanawy_com" {
   type         = "A"
   rrdatas = [google_compute_address.static_ip_address.address]
   ttl     = 300
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 
 }
 
@@ -59,7 +59,7 @@ resource "google_dns_record_set" "thanawy_com_no_subdomain" {
   type         = "A"
   rrdatas = [google_compute_address.static_ip_address.address]
   ttl     = 300
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 
 }
 
@@ -69,5 +69,5 @@ resource "google_dns_record_set" "staging_thanawy_com" {
   type         = "A"
   rrdatas = [google_compute_address.static_ip_address.address]
   ttl     = 300
-  depends_on = [google_project_service.gcp_services]
+  depends_on = [google_project_service.gcp_services, null_resource.delete_me]
 }

@@ -1,3 +1,4 @@
+# do not modify this file! it will be overwritten by terraform
 resource "google_storage_bucket" "terraform_state_bucket" {
   name          = "thanawy-com-tfstate"
   force_destroy = true
@@ -6,9 +7,9 @@ resource "google_storage_bucket" "terraform_state_bucket" {
   versioning {
     enabled = true
   }
-  depends_on = [
-    google_project_service.gcp_services
-  ]
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "google_storage_bucket_iam_binding" "bucket_iam_binding" {
@@ -20,5 +21,7 @@ resource "google_storage_bucket_iam_binding" "bucket_iam_binding" {
     "projectOwner:${data.google_project.project.project_id}",
     "projectEditor:${data.google_project.project.project_id}"
   ]
-
+  lifecycle {
+    prevent_destroy = true
+  }
 }

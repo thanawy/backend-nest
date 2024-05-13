@@ -3,7 +3,7 @@
 #
 locals {
   instance_name = "nestjs-instance-1"
-  image_name = "gcr.io/thanawy-com/nestjs-server:latest"
+  image_name    = "gcr.io/thanawy-com/nestjs-server:latest"
 }
 
 variable "secrets" {
@@ -45,7 +45,7 @@ resource "google_compute_instance" "nestjs" {
 
   network_interface {
     access_config {
-      nat_ip = google_compute_address.static_ip_address.address # Static IP address
+      nat_ip       = google_compute_address.static_ip_address.address # Static IP address
       network_tier = "PREMIUM"
     }
 
@@ -63,7 +63,11 @@ resource "google_compute_instance" "nestjs" {
 
   service_account {
     email  = "${data.google_project.project.number}-compute@developer.gserviceaccount.com"
-    scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
+    scopes = [
+      "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly",
+      "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"
+    ]
   }
 
   shielded_instance_config {
@@ -72,8 +76,13 @@ resource "google_compute_instance" "nestjs" {
     enable_vtpm                 = true
   }
 
-  tags = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
-  zone = "us-central1-f"
-  depends_on = [google_project_service.gcp_services]
-
+  tags       = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
+  zone       = "us-central1-f"
+  depends_on = [
+    google_project_service.gcp_services,
+    google_compute_firewall.allow_http,
+    google_compute_firewall.allow_https,
+    google_project_iam_binding.github_actions_roles_binding,
+    null_resource.delete_me
+  ]
 }

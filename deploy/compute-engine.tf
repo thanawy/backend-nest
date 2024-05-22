@@ -75,6 +75,7 @@ resource "google_compute_instance" "nestjs" {
     enable_secure_boot          = false
     enable_vtpm                 = true
   }
+  allow_stopping_for_update = true
 
   tags       = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
   zone       = "us-central1-f"

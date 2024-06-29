@@ -12,6 +12,7 @@ import { Answer } from '@answers/entities/answer.entity';
 import { Subscription } from '@subscriptions/entities/subscription.entity';
 import { DefaultEntity } from '@database/default.entities';
 import { Role } from '@auth/rbac/entities/role.entity';
+import { Order } from '@orders/entities/order.entity';
 
 @Unique(['provider', 'providerId'])
 @Entity()
@@ -53,4 +54,7 @@ export class User extends DefaultEntity {
   @OneToOne(() => Subscription, (subscription) => subscription.user)
   @JoinColumn()
   subscription: Subscription;
+
+  @OneToMany(() => Order, order => order.user)
+  orders: Order[];
 }

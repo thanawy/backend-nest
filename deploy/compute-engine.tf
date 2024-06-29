@@ -35,7 +35,7 @@ resource "google_compute_instance" "nestjs" {
     goog-ec-src  = "vm_add-tf"
   }
 
-  machine_type = "e2-standard-2"
+  machine_type = "e2-medium"
 
   metadata = {
     gce-container-declaration = "spec:\n  containers:\n  - name: ${local.instance_name}\n    image: ${local.image_name}\n    env:\n    - name: SECRETS\n      value: ${var.secrets}\n    stdin: false\n    tty: false\n  restartPolicy: Always\n# This container declaration format is not public API and may change without notice. Please\n# use gcloud command-line tool or Google Cloud Console to run Containers on Google Compute Engine."
@@ -75,6 +75,7 @@ resource "google_compute_instance" "nestjs" {
     enable_secure_boot          = false
     enable_vtpm                 = true
   }
+  allow_stopping_for_update = true
 
   tags       = setunion(google_compute_firewall.allow_http.target_tags, google_compute_firewall.allow_https.target_tags)
   zone       = "us-central1-f"

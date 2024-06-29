@@ -1,19 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
-
+import { Plan } from '@plans/entities/plan.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class PlansService {
+
+  constructor(
+    @InjectRepository(Plan)
+    private readonly plansRepository: Repository<Plan>,
+  ) {}
+
   create(createPlanDto: CreatePlanDto) {
-    return 'This action adds a new plan';
+    return this.plansRepository.save(createPlanDto);
   }
 
   findAll() {
-    return `This action returns all plans`;
+    return this.plansRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} plan`;
+  findOne(id: string) {
+    return this.plansRepository.findOneBy({ id });
   }
 
   update(id: number, updatePlanDto: UpdatePlanDto) {

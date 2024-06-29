@@ -7,7 +7,7 @@ import { UpdatePlanDto } from './dto/update-plan.dto';
 export class PlansController {
   constructor(private readonly plansService: PlansService) {}
 
-  @Post()
+  @Post("create")
   create(@Body() createPlanDto: CreatePlanDto) {
     return this.plansService.create(createPlanDto);
   }
@@ -17,18 +17,18 @@ export class PlansController {
     return this.plansService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.plansService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.plansService.findOne(id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
-    return this.plansService.update(+id, updatePlanDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
+  //   return this.plansService.update(id, updatePlanDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.plansService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.plansService.remove(id);
+  // }
 }

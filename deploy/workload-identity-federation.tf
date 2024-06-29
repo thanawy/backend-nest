@@ -49,6 +49,7 @@ variable "gcp_service_account_roles" {
     "roles/serviceusage.serviceUsageViewer",
     "roles/resourcemanager.projectIamAdmin",
     "roles/artifactregistry.createOnPushRepoAdmin",
+    "roles/iam.serviceAccountUser"
   ]
 }
 

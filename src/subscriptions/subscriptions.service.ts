@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { Subscription } from '@subscriptions/entities/subscription.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SubscriptionsService {
+
+  constructor(
+    @InjectRepository(Subscription)
+    private readonly subscriptionRepository: Repository<Subscription>
+  ){}
+
+
   create(createSubscriptionDto: CreateSubscriptionDto) {
-    return 'This action adds a new subscription';
+    const entity = this.subscriptionRepository.create(createSubscriptionDto);
+    return this.subscriptionRepository.save(entity);
   }
 
   findAll() {
-    return `This action returns all subscriptions`;
+    return this.subscriptionRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subscription`;
+  findOneByUserId(userId: string) {
+    return this.subscriptionRepository.findOneBy({ user: { id: userId } });
   }
 
-  update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return `This action updates a #${id} subscription`;
+  findOne(id: string) {
+    return this.subscriptionRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subscription`;
+  update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
+    return this.subscriptionRepository.update(id, updateSubscriptionDto);
+  }
+
+  remove(id: string) {
+    return this.subscriptionRepository.delete(id);
   }
 }

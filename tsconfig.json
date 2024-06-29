@@ -19,81 +19,28 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@auth/*": ["auth/*"], // Maps "@auth/" to "auth/"
+      "@answers/*": ["answers/*"], // Maps "@models/" to "models/"
+      "@units/*": ["units/*"], // Maps "@models/" to "models/"
+      "@classes/*": ["classes/*"], // Maps "@models/" to "models/"
+      "@lessons/*": ["lessons/*"], // Maps "@models/" to "models/"
+      "@orders/*": ["orders/*"], // Maps "@models/" to "models/"
+      "@onboarding-screen/*": ["onboarding-screen/*"], // Maps "@models/" to "models/
+      "@choice/*": ["choice/*"], // Maps "@choice/" to "choice/"
+      "@collections/*": ["collections/*"], // Maps "@models/" to "models/"
+      "@database/*": ["database/*"], // Maps "@models/" to "models/"
+      "@plans/*": ["plans/*"], // Maps "@models/" to "models/"
+      "@programs/*": ["programs/*"], // Maps "@models/" to "models/"
+      "@questions/*": ["questions/*"], // Maps "@models/" to "models/"
+      "@subjects/*": ["subjects/*"], // Maps "@models/" to "models/"
+      "@subscriptions/*": ["subscriptions/*"], // Maps "@models/" to "models/"
+      "@tags/*": ["tags/*"], // Maps "@models/" to "models/"
+      "@users/*": ["users/*"], // Maps "@models/" to "models/"
+      "@payments/*": ["payments/*"], // Maps "@models/" to "models/"
       "@chapters/*": ["chapters/*"], // Maps "@models/" to "models/"
       "@config/*": ["config/*"],
-
-      "@auth/*": [
-        "auth/*"
-      ],
-      // Maps "@auth/" to "auth/"
-      "@answers/*": [
-        "answers/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@units/*": [
-        "units/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@classes/*": [
-        "classes/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@lessons/*": [
-        "lessons/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@onboarding-screen/*": [
-        "onboarding-screen/*"
-      ],
-      // Maps "@models/" to "models/
-      "@choice/*": [
-        "choice/*"
-      ],
-      // Maps "@choice/" to "choice/"
-      "@collections/*": [
-        "collections/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@database/*": [
-        "database/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@mailer/*": [
-        "mailer/*"
-      ],
-      // Maps "@models/" to "models/
-      "@plans/*": [
-        "plans/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@programs/*": [
-        "programs/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@questions/*": [
-        "questions/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@subjects/*": [
-        "subjects/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@verification/*": [
-        "auth/verification/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@subscriptions/*": [
-        "subscriptions/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@tags/*": [
-        "tags/*"
-      ],
-      // Maps "@models/" to "models/"
-      "@users/*": [
-        "users/*"
-      ]
-      // Maps "@models/" to "models/"
+      "@mailer/*": ["mailer/*"],
+      "@verification/*": ["auth/verification/*"]
     }
   }
 }

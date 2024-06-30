@@ -49,7 +49,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     PaymobModule,
     StatisticsModule,
   ],
-  controllers: [AppController, StatisticsController],
+  controllers: [AppController],
   providers: [
     AppService,
     RolesService,

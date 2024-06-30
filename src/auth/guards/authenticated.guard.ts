@@ -11,6 +11,6 @@ export class AuthenticatedGuard implements CanActivate {
     if (req.user && req.user.emailVerifiedAt === null) {
       throw new UnverifiedException();
     }
-    return req.user === null;
+    return req.user !== null;
   }
 }

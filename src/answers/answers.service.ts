@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Answer } from '@answers/entities/answer.entity';
 
 @Injectable()
 export class AnswersService {
+  constructor(
+    @InjectRepository(Answer)
+    private readonly answersRepository: Repository<Answer>,
+  ) {}
+
   create(createAnswerDto: CreateAnswerDto) {
     return 'This action adds a new answer';
   }

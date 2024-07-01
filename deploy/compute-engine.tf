@@ -18,7 +18,7 @@ resource "google_compute_instance" "nestjs" {
     device_name = "nestjs-boot-disk"
 
     initialize_params {
-      image = "projects/cos-cloud/global/images/cos-stable-113-18244-1-61"
+      image = "projects/cos-cloud/global/images/cos-113-18244-85-49"
       size  = 10
       type  = "pd-balanced"
     }

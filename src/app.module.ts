@@ -20,12 +20,14 @@ import { RolesService } from '@auth/rbac/roles/roles.service';
 import { LessonsModule } from '@lessons/lessons.module';
 import { ClassesModule } from '@classes/classes.module';
 import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.module';
-import { OrdersModule } from '@orders/orders.module';
-import { PaymobModule } from '@payments/paymob/paymob.module';
+import { OrdersModule } from './orders/orders.module';
+import { PaymobModule } from './payments/paymob/paymob.module';
+import { EmailModule } from '@mailer/mailer.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    EmailModule,
     DatabaseModule,
     UsersModule,
     ProgramsModule,

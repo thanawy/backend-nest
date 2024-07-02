@@ -49,7 +49,7 @@ async function bootstrap() {
     cookie: {
       sameSite: 'none',
       maxAge: 86400000,
-      secure: true, // Change to true in production with HTTPS
+      secure: false, // Change to true in production with HTTPS
       httpOnly: true,
     },
   });

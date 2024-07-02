@@ -5,17 +5,28 @@ import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from 'auth/session.serializer';
 import { LocalStrategy } from 'auth/strategies/local.strategy';
 import { FacebookStrategy } from 'auth/strategies/facebook.strategy';
-import { AuthController } from './auth.controller';
-import { RolesService } from './rbac/roles/roles.service';
+import { AuthController } from '@auth/auth.controller';
+import { RolesService } from '@auth/rbac/roles/roles.service';
+import { EmailModule } from '@mailer/mailer.module';
+import { VerificationService } from '@auth/verification.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Verification } from '@auth/entities/verification.entity';
 
 @Module({
-  imports: [UsersModule, PassportModule.register({ session: true })],
+  imports: [
+    UsersModule,
+    PassportModule.register({ session: true }),
+    EmailModule,
+    TypeOrmModule.forFeature([Verification]),
+  ],
   providers: [
     AuthService,
     LocalStrategy,
     FacebookStrategy,
     SessionSerializer,
     RolesService,
+    EmailModule,
+    VerificationService,
   ],
   controllers: [AuthController],
 })

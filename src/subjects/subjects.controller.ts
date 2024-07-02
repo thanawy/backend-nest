@@ -1,13 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Query, UseGuards } from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { ProgramsService } from '@programs/programs.service';
+import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 @Controller('subjects')
 export class SubjectsController {
   constructor(
     private readonly subjectsService: SubjectsService,
-    private readonly programsService: ProgramsService
+    private readonly programsService: ProgramsService,
   ) {}
 
   @Post()
@@ -22,6 +23,7 @@ export class SubjectsController {
 
 
   @Get('')
+  // @UseGuards(AuthenticatedGuard)
   async findAll(
     @Query('programId') id: string
   ) {

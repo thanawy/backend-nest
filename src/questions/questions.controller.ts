@@ -1,15 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException  } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  BadRequestException,
+} from '@nestjs/common';
 import { QuestionsService } from '@questions/questions.service';
 import { CreateQuestionDto } from '@questions/dto/create-question.dto';
 import { UpdateQuestionDto } from '@questions/dto/update-question.dto';
 import { LessonsService } from '@lessons/lessons.service';
 
-
 @Controller('questions')
 export class QuestionsController {
   constructor(
     private readonly questionsService: QuestionsService,
-    private readonly lessonsService: LessonsService
+    private readonly lessonsService: LessonsService,
   ) {}
 
   @Post()
@@ -20,13 +29,15 @@ export class QuestionsController {
       for (const item of body) {
         const lesson = await this.lessonsService.findOne(item.lessonId);
         if (!lesson) {
-          throw new BadRequestException(`Lesson not found for ID: ${item.lessonId}`);
+          throw new BadRequestException(
+            `Lesson not found for ID: ${item.lessonId}`,
+          );
         }
-        console.log(lesson);
+
         const result = await this.questionsService.create({
           lesson,
           description: item.description,
-          choices: item.choices
+          choices: item.choices,
         });
         results.push(result);
       }
@@ -35,26 +46,31 @@ export class QuestionsController {
       // Handle single question creation
       const lesson = await this.lessonsService.findOne(body.lessonId);
       if (!lesson) {
-        throw new BadRequestException(`Lesson not found for ID: ${body.lessonId}`);
+        throw new BadRequestException(
+          `Lesson not found for ID: ${body.lessonId}`,
+        );
       }
-      console.log(lesson);
+
       return this.questionsService.create({
         lesson,
         description: body.description,
-        choices: body.choices
+        choices: body.choices,
       });
     }
   }
 
   @Get()
-  findAll(@Query() query: {
-    class?: string;
-    subject?: string;
-    lesson?: string;
-    unit?: string;
-    page?: number;
-    pageSize?: number;
-  }) {
+  findAll(
+    @Query()
+    query: {
+      class?: string;
+      subject?: string;
+      lesson?: string;
+      unit?: string;
+      page?: number;
+      pageSize?: number;
+    },
+  ) {
     return this.questionsService.findAll(query);
   }
 
@@ -64,7 +80,10 @@ export class QuestionsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
     return this.questionsService.update(id, updateQuestionDto);
   }
 

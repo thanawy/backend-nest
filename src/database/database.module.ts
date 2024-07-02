@@ -20,7 +20,7 @@ import { DataSource } from 'typeorm';
         migrations: [__dirname + '/../database/migrations/**{.ts,.js}'],
         synchronize: configService.get('DB_SYNC') === 'true', // Caution: true only for development,
         namingStrategy: new SnakeNamingStrategy(),
-        logging: true,
+        logging: false,
       }),
       dataSourceFactory: async (options) => {
         return await new DataSource(options).initialize();

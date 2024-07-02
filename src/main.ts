@@ -13,6 +13,7 @@ import RedisStore from 'connect-redis';
 import { createClient } from 'redis';
 import { ValidationPipe } from '@nestjs/common';
 import { CurrentUserGuard } from '@auth/guards/current.user.guard';
+import fastifyCors from '@fastify/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,8 +21,18 @@ async function bootstrap() {
     new FastifyAdapter({
       ...loggerConfig,
     }),
-    {cors: true},
+    {
+      cors: {
+        origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+        credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
+        allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
+        
+      },
+    },
   );
+
+  // app.enableCors();
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -36,8 +47,10 @@ async function bootstrap() {
     saveUninitialized: false,
     store: new RedisStore({ client: redisClient }),
     cookie: {
+      sameSite: 'none',
       maxAge: 86400000,
-      secure: true,
+      secure: true, // Change to true in production with HTTPS
+      httpOnly: true,
     },
   });
 

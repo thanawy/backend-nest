@@ -12,7 +12,14 @@ variable "secrets" {
   sensitive   = true
 }
 
+
 resource "google_compute_instance" "nestjs" {
+
+  lifecycle {
+    replace_triggered_by = [
+      timestamp()
+    ]
+  }
   boot_disk {
     auto_delete = true
     device_name = "nestjs-boot-disk"

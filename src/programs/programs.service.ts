@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { UpdateProgramDto } from './dto/update-program.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Program } from './entities/program.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProgramsService {
+
+  constructor(
+
+  @InjectRepository(Program)
+  private readonly programsRepository: Repository<Program>,
+  ) {}
+
   create(createProgramDto: CreateProgramDto) {
-    return 'This action adds a new program';
+    const program = this.programsRepository.create(createProgramDto);
+    return this.programsRepository.save(program);
   }
 
   findAll() {
-    return `This action returns all programs`;
+    return this.programsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} program`;
+  findOne(id: string) {
+    return this.programsRepository.findOneBy({ id });
   }
 
-  update(id: number, updateProgramDto: UpdateProgramDto) {
+  update(id: string, updateProgramDto: UpdateProgramDto) {
     return `This action updates a #${id} program`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} program`;
   }
 }

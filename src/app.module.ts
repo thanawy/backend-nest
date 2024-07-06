@@ -6,7 +6,7 @@ import { DatabaseModule } from '@database/database.module';
 import { UsersModule } from '@users/users.module';
 import { ProgramsModule } from '@programs/programs.module';
 import { SubjectsModule } from '@subjects/subjects.module';
-import { UnitsModule } from '@units/units.module'
+import { UnitsModule } from '@units/units.module';
 import { AnswersModule } from '@answers/answers.module';
 import { SubscriptionsModule } from '@subscriptions/subscriptions.module';
 import { PlansModule } from '@plans/plans.module';
@@ -44,7 +44,7 @@ import { EmailModule } from '@mailer/mailer.module';
     LessonsModule,
     ClassesModule,
     OrdersModule,
-    PaymobModule
+    PaymobModule,
   ],
   controllers: [AppController],
   providers: [

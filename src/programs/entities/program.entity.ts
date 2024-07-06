@@ -18,6 +18,5 @@ export class Program extends DefaultEntity {
   users: User[];
 
   @ManyToMany(() => Subject)
-  @JoinTable({ name: 'program_subject' })
   subjects: Subject[];
 }

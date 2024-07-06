@@ -10,7 +10,6 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get("/hello")
-  @Roles(new Permission({ action: 'read', resource: 'hello' }))
   getHello(): string {
     return this.appService.getHello();
   }

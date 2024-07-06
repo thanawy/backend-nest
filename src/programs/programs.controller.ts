@@ -19,16 +19,16 @@ export class ProgramsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.programsService.findOne(+id);
+    return this.programsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProgramDto: UpdateProgramDto) {
-    return this.programsService.update(+id, updateProgramDto);
+    return this.programsService.update(id, updateProgramDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.programsService.remove(+id);
+    return this.programsService.remove(id);
   }
 }

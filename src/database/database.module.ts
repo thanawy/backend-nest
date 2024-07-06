@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { DataSource } from 'typeorm';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -27,5 +28,6 @@ import { DataSource } from 'typeorm';
       inject: [ConfigService],
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule {}

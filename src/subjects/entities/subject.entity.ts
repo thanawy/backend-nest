@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToMany, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 import { Program } from '@programs/entities/program.entity'; // Adjust the path as necessary
 import { Unit } from '@units/entities/unit.entity';
 import { DefaultEntity } from '@database/default.entities';
@@ -10,6 +10,7 @@ export class Subject extends DefaultEntity {
   name: string;
 
   @ManyToMany(() => Program)
+  @JoinTable({ name: 'program_subject' })
   programs: Program[];
 
   @OneToMany(() => Unit, (unit) => unit.subject)

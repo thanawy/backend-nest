@@ -1,34 +1,94 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { QuestionsService } from './questions.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  BadRequestException,
+} from '@nestjs/common';
+import { QuestionsService } from '@questions/questions.service';
+import { CreateQuestionDto } from '@questions/dto/create-question.dto';
+import { UpdateQuestionDto } from '@questions/dto/update-question.dto';
+import { LessonsService } from '@lessons/lessons.service';
 
 @Controller('questions')
 export class QuestionsController {
-  constructor(private readonly questionsService: QuestionsService) {}
+  constructor(
+    private readonly questionsService: QuestionsService,
+    private readonly lessonsService: LessonsService,
+  ) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionsService.create(createQuestionDto);
+  async create(@Body() body: any) {
+    // Check if the body contains an array of questions
+    if (Array.isArray(body)) {
+      const results = [];
+      for (const item of body) {
+        const lesson = await this.lessonsService.findOne(item.lessonId);
+        if (!lesson) {
+          throw new BadRequestException(
+            `Lesson not found for ID: ${item.lessonId}`,
+          );
+        }
+
+        const result = await this.questionsService.create({
+          lesson,
+          description: item.description,
+          choices: item.choices,
+        });
+        results.push(result);
+      }
+      return results;
+    } else {
+      // Handle single question creation
+      const lesson = await this.lessonsService.findOne(body.lessonId);
+      if (!lesson) {
+        throw new BadRequestException(
+          `Lesson not found for ID: ${body.lessonId}`,
+        );
+      }
+
+      return this.questionsService.create({
+        lesson,
+        description: body.description,
+        choices: body.choices,
+      });
+    }
   }
 
   @Get()
-  findAll() {
-    return this.questionsService.findAll();
+  findAll(
+    @Query()
+    query: {
+      class?: string;
+      subject?: string;
+      lesson?: string;
+      unit?: string;
+      page?: number;
+      pageSize?: number;
+    },
+  ) {
+    return this.questionsService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+    return this.questionsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-    return this.questionsService.update(+id, updateQuestionDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
+    return this.questionsService.update(id, updateQuestionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
+    return this.questionsService.remove(id);
   }
 }

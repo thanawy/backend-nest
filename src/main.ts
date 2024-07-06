@@ -25,11 +25,12 @@ async function bootstrap() {
     }),
     {
       cors: {
-        origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+        // origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+        origin: '*', // Replace with your frontend URL
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
-        allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
-        
+        allowedHeaders:
+          'Origin,X-Requested-With,Content-Type,Accept,Authorization',
       },
     },
   );
@@ -75,9 +76,7 @@ async function bootstrap() {
       done();
     });
 
-
   await app.listen(80, '0.0.0.0');
-
 }
 
 bootstrap();

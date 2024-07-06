@@ -17,7 +17,7 @@ resource "google_compute_instance" "nestjs" {
 
   lifecycle {
     replace_triggered_by = [
-      timestamp()
+      null_resource.delete_me
     ]
   }
   boot_disk {

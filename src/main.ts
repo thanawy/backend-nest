@@ -50,7 +50,7 @@ async function bootstrap() {
     saveUninitialized: false,
     store: new RedisStore({ client: redisClient }),
     cookie: {
-      sameSite: 'none',
+      sameSite: false,
       maxAge: 86400000,
       secure: false, // Change to true in production with HTTPS
       httpOnly: true,

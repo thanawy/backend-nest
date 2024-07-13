@@ -27,7 +27,7 @@ async function bootstrap() {
       cors: {
         // origin: process.env.FRONTEND_URL, // Replace with your frontend URL
         origin: '*', // Replace with your frontend URL
-        credentials: true,
+//         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
         allowedHeaders:
           'Origin,X-Requested-With,Content-Type,Accept,Authorization',
@@ -50,9 +50,9 @@ async function bootstrap() {
     saveUninitialized: false,
     store: new RedisStore({ client: redisClient }),
     cookie: {
-      sameSite: false,
+      sameSite: 'None',
       maxAge: 86400000,
-      secure: false, // Change to true in production with HTTPS
+      secure: true, // Change to true in production with HTTPS
       httpOnly: true,
     },
   });

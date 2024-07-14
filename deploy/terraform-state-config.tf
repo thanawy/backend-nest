@@ -1,3 +1,9 @@
+
+
+resource "null_resource" "delete_me" {
+
+}
+
 # do not modify this file! it will be overwritten by terraform
 resource "google_storage_bucket" "terraform_state_bucket" {
   name          = "thanawy-com-tfstate"
@@ -25,3 +31,4 @@ resource "google_storage_bucket_iam_binding" "bucket_iam_binding" {
     prevent_destroy = true
   }
 }
+

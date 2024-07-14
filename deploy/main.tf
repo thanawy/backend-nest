@@ -14,7 +14,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "= 2.31.0"
+      version = ">= 2.3.2"
     }
   }
 }
@@ -25,25 +25,7 @@ provider "google" {
 }
 
 provider "kubernetes" {
-  host                   = "https://${data.google_container_cluster.primary.endpoint}"
+  host                   = "https://${google_container_cluster.primary.endpoint}"
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
 }
-
-#terraform {
-#  required_providers {
-#    # We recommend pinning to the specific version of the Docker Provider you're using
-#    # since new versions are released frequently
-#    docker = {
-#      source  = "kreuzwerker/docker"
-#      version = "3.0.2"
-#    }
-#  }
-#}
-#
-## Configure the docker provider
-#provider "docker" {
-#}
-
-
-

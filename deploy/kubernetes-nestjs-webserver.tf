@@ -82,7 +82,7 @@ resource "kubernetes_service" "nestjs" {
 
   spec {
     type = "LoadBalancer"
-
+    load_balancer_ip = google_compute_address.static_ip_address.address
     selector = {
       app = "nestjs"
     }
@@ -107,7 +107,7 @@ resource "kubernetes_manifest" "ssl_certificate" {
     kind       = "ManagedCertificate"
     metadata = {
       namespace  = kubernetes_namespace.nestjs-webserver.id
-      name = "nestjs-managed-cert"
+      name = "nestjs-cert"
     }
     spec = {
       domains = ["staging.thanawy.com"]
@@ -144,11 +144,6 @@ resource "kubernetes_ingress_v1" "nestjs" {
 
     tls {
       hosts      = ["staging.thanawy.com"]
-      secret_name = kubernetes_manifest.ssl_certificate.manifest.metadata.name
     }
   }
-}
-
-output "nestjs_load_balancer_ip" {
-  value = kubernetes_service.nestjs.status[0].load_balancer[0].ingress[0].ip
 }

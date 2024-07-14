@@ -88,7 +88,14 @@ resource "kubernetes_service" "nestjs" {
     }
 
     port {
+      name        = "http"
       port        = 80
+      target_port = 3000
+    }
+
+    port {
+      name        = "https"
+      port        = 443
       target_port = 3000
     }
   }
@@ -133,6 +140,11 @@ resource "kubernetes_ingress_v1" "nestjs" {
           }
         }
       }
+    }
+
+    tls {
+      hosts      = ["staging.thanawy.com"]
+      secret_name = kubernetes_manifest.ssl_certificate.manifest.metadata.name
     }
   }
 }

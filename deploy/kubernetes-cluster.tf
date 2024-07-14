@@ -5,7 +5,7 @@ resource "google_service_account" "kubernetes" {
 
 resource "google_project_iam_binding" "kubernetes_container_admin" {
   project  = data.google_project.project.project_id
-  role     = "roles/container.admin"
+  role     = "roles/container.defaultNodeServiceAccount"
   members  = [
     "serviceAccount:${google_service_account.kubernetes.email}"
   ]

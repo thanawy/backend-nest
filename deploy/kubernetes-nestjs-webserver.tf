@@ -51,9 +51,22 @@ resource "kubernetes_deployment" "nestjs" {
         container {
           name  = "nestjs"
           image = "gcr.io/thanawy-com/nestjs-server:latest"
-
+          liveness_probe {
+            http_get {
+              path = "/hello"
+              scheme = "HTTP"
+              port = "3000"
+            }
+          }
+          readiness_probe {
+            http_get {
+              path = "/hello"
+              scheme = "HTTP"
+              port = "3000"
+            }
+          }
           env {
-            name  = "SECRETS"
+            name = "SECRETS"
             value_from {
               secret_key_ref {
                 name = kubernetes_secret.nestjs-secrets.metadata[0].name
@@ -82,20 +95,14 @@ resource "kubernetes_service" "nestjs" {
 
   spec {
     type = "LoadBalancer"
-    load_balancer_ip = google_compute_address.static_ip_address.address
     selector = {
       app = "nestjs"
     }
 
     port {
       name        = "http"
+      protocol    = "TCP"
       port        = 80
-      target_port = 3000
-    }
-
-    port {
-      name        = "https"
-      port        = 443
       target_port = 3000
     }
   }
@@ -106,8 +113,8 @@ resource "kubernetes_manifest" "ssl_certificate" {
     apiVersion = "networking.gke.io/v1"
     kind       = "ManagedCertificate"
     metadata = {
-      namespace  = kubernetes_namespace.nestjs-webserver.id
-      name = "nestjs-cert"
+      namespace = kubernetes_namespace.nestjs-webserver.id
+      name      = "nestjs-certificate"
     }
     spec = {
       domains = ["staging.thanawy.com"]
@@ -120,30 +127,20 @@ resource "kubernetes_ingress_v1" "nestjs" {
     name      = "nestjs-ingress"
     namespace = kubernetes_namespace.nestjs-webserver.id
     annotations = {
-      "networking.gke.io/managed-certificates" = kubernetes_manifest.ssl_certificate.manifest.metadata.name
+      "kubernetes.io/ingress.class"                 = "gce"
+      "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.ingress_ip.name
+      "networking.gke.io/managed-certificates"      = kubernetes_manifest.ssl_certificate.manifest.metadata.name
     }
   }
 
   spec {
-    rule {
-      host = "staging.thanawy.com"
-      http {
-        path {
-          path = "/"
-          backend {
-            service {
-              name = kubernetes_service.nestjs.metadata[0].name
-              port {
-                number = 80
-              }
-            }
-          }
+    default_backend {
+      service {
+        name = kubernetes_service.nestjs.metadata[0].name
+        port {
+          number = 80
         }
       }
-    }
-
-    tls {
-      hosts      = ["staging.thanawy.com"]
     }
   }
 }

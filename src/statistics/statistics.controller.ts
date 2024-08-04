@@ -7,11 +7,15 @@ import * as entity from '@users/entities/user.entity';
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
+
   @Get('time-spent-graph')
   async getTimeSpentGraph(
     @User() user: entity.User,
-    @Query('filters') filters: any = null,
+    @Query('subject_id') subjectId: string = null,
+    @Query('unit_id') unitId: string = null,
+    @Query('start_time') startTime: string = null,
+    @Query('end_time') endTime: string = null
   ) {
-    return await this.statisticsService.getTimeSpentGraph(filters, user.id);
+    return await this.statisticsService.getTimeSpentGraph(subjectId, unitId, startTime, endTime, user.id);
   }
 }

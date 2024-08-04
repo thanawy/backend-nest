@@ -54,7 +54,10 @@ export class StatisticsService {
     return { averagePerformance, userPerformance };
   }
 
-  async getTimeSpentGraph(filters, userId) {
+  async getTimeSpentGraph(subjectId, unitId, startTime, endTime, userId) {
+    const filters = {
+        subjectId, unitId, startTime, endTime,
+    }
     return await this.getGraphData(filters, userId, {
       select: ['SUM(solution_duration) as timeSpent'],
     });

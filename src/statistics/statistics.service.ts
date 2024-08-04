@@ -12,7 +12,10 @@ export class StatisticsService {
     private answerRepository: Repository<Answer>,
   ) {}
 
-  async getGraphData(filters, userId, graphQuery) {
+  async getGraphData(
+      filters: { subjectId: string; unitId: string; startTime: string; endTime: string; },
+      userId: string, graphQuery: { [x: string]: any; select: any; relations?: any; where?: any; }
+  ) {
     graphQuery.relations = {
       question: { lesson: { unit: { subject: true } } },
     };
@@ -54,7 +57,7 @@ export class StatisticsService {
     return { averagePerformance, userPerformance };
   }
 
-  async getTimeSpentGraph(subjectId, unitId, startTime, endTime, userId) {
+  async getTimeSpentGraph(subjectId: string, unitId: string, startTime: string, endTime: string, userId: string) {
     const filters = {
         subjectId, unitId, startTime, endTime,
     }

@@ -20,7 +20,7 @@ export class StatisticsService {
 
     let queryBuilder = this.answerRepository.createQueryBuilder()
         .select()
-        .leftJoinAndSelect("user.question", "question")
+        .leftJoinAndSelect("answer.question", "question")
         .leftJoinAndSelect("question.lesson", "lesson")
         .leftJoinAndSelect("lesson.unit", "unit")
         .leftJoinAndSelect("unit.subject", "subject")
@@ -43,7 +43,7 @@ export class StatisticsService {
     queryBuilder = queryBuilderApply.apply(queryBuilder)
 
     const averagePerformance = queryBuilder.getRawMany();
-    const userPerformance = queryBuilder.where("user.id = :userId", {userId}).getRawMany()
+    const userPerformance = queryBuilder.where("answer.userId = :userId", {userId}).getRawMany()
 
     return { averagePerformance, userPerformance };
   }

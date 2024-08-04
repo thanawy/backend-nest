@@ -3,6 +3,7 @@ import { StatisticsService } from './statistics.service';
 import { User } from '@auth/decorators/user.decorator';
 import * as entity from '@users/entities/user.entity';
 
+@UseGuards(AuthenticatedGuard)
 @Controller('statistics')
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}

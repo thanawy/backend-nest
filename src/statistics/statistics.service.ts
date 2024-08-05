@@ -18,7 +18,7 @@ export class StatisticsService {
       queryBuilderApply: (queryBuilder: SelectQueryBuilder<Answer>)  => SelectQueryBuilder<Answer>
   ) {
 
-    let queryBuilder = this.answerRepository.createQueryBuilder()
+    let queryBuilder = this.answerRepository.createQueryBuilder('answer')
         .select()
         .leftJoinAndSelect("answer.question", "question")
         .leftJoinAndSelect("question.lesson", "lesson")

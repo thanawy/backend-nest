@@ -26,18 +26,18 @@ export class StatisticsService {
         .leftJoinAndSelect("unit.subject", "subject")
 
     if (filters.subjectId){
-      queryBuilder.addSelect("unit.id")
-      queryBuilder.addGroupBy("unit.id")
-      queryBuilder.where("subject.id = :subjectId", { subjectId: filters.subjectId})
+      queryBuilder = queryBuilder.addSelect("unit.id")
+        .addGroupBy("unit.id")
+        .where("subject.id = :subjectId", { subjectId: filters.subjectId})
     }
 
     if (filters.unitId){
-      queryBuilder.addSelect("lesson.id")
-      queryBuilder.addGroupBy("lesson.id")
-      queryBuilder.where("unit.id = :unitId", { unitId: filters.unitId})
+      queryBuilder = queryBuilder.addSelect("lesson.id")
+        .addGroupBy("lesson.id")
+        .where("unit.id = :unitId", { unitId: filters.unitId})
     }
     if (filters.startTime && filters.endTime){
-      queryBuilder.where("answer.createdAt between :startTime and :endTime", {startTime: filters.startTime, endTime: filters.endTime})
+      queryBuilder = queryBuilder.where("answer.createdAt between :startTime and :endTime", {startTime: filters.startTime, endTime: filters.endTime})
     }
 
     queryBuilder = queryBuilderApply.apply(queryBuilder)

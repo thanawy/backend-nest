@@ -25,11 +25,12 @@ async function bootstrap() {
     }),
     {
       cors: {
-        origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+        // origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+        origin: ['http://localhost:5137', 'https://staging.thanawy.com', 'http://localhost:3000'], // Replace with your frontend URL
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
-        allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
-        
+        allowedHeaders:
+          'Origin,X-Requested-With,Content-Type,Accept,Authorization',
       },
     },
   );
@@ -51,7 +52,7 @@ async function bootstrap() {
     cookie: {
       sameSite: 'none',
       maxAge: 86400000,
-      secure: false, // Change to true in production with HTTPS
+      secure: true,
       httpOnly: true,
     },
   });
@@ -75,9 +76,7 @@ async function bootstrap() {
       done();
     });
 
-
-  await app.listen(80, '0.0.0.0');
-
+  await app.listen(3000, '0.0.0.0');
 }
 
 bootstrap();

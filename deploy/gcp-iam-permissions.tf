@@ -49,7 +49,8 @@ variable "gcp_service_account_roles" {
     "roles/serviceusage.serviceUsageViewer",
     "roles/resourcemanager.projectIamAdmin",
     "roles/artifactregistry.createOnPushRepoAdmin",
-    "roles/iam.serviceAccountUser"
+    "roles/iam.serviceAccountUser",
+    "roles/container.admin"
   ]
 }
 
@@ -70,4 +71,29 @@ resource "google_service_account_iam_member" "github_actions_workload_identity_u
   lifecycle {
     prevent_destroy = true
   }
+}
+
+variable "gcp_service_list" {
+  description ="The list of apis necessary for the project"
+  type = list(string)
+  default = [
+    "compute.googleapis.com",
+    "logging.googleapis.com",
+    "artifactregistry.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "serviceusage.googleapis.com",
+    "dns.googleapis.com",
+    "iam.googleapis.com",
+    "storage.googleapis.com",
+    "container.googleapis.com"
+  ]
+}
+
+resource "google_project_service" "gcp_services" {
+
+  for_each = toset(var.gcp_service_list)
+  project = data.google_project.project.project_id
+  service = each.key
+  disable_dependent_services = true
 }

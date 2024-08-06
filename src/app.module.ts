@@ -20,9 +20,11 @@ import { RolesService } from '@auth/rbac/roles/roles.service';
 import { LessonsModule } from '@lessons/lessons.module';
 import { ClassesModule } from '@classes/classes.module';
 import { OnboardingScreenModule } from '@onboarding-screen/onboarding-screen.module';
-import { OrdersModule } from './orders/orders.module';
-import { PaymobModule } from './payments/paymob/paymob.module';
+import { OrdersModule } from '@orders/orders.module';
+import { PaymobModule } from '@payments/paymob/paymob.module';
 import { EmailModule } from '@mailer/mailer.module';
+import { StatisticsController } from './statistics/statistics.controller';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { EmailModule } from '@mailer/mailer.module';
     ClassesModule,
     OrdersModule,
     PaymobModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [

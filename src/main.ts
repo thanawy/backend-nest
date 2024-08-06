@@ -26,7 +26,7 @@ async function bootstrap() {
     {
       cors: {
         // origin: process.env.FRONTEND_URL, // Replace with your frontend URL
-        origin: '*', // Replace with your frontend URL
+        origin: ['http://localhost:5137', 'https://staging.thanawy.com', 'http://localhost:3000'], // Replace with your frontend URL
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed HTTP methods
         allowedHeaders:
